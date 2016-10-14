@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9b086bccb0e4478fa2755a43047d89ad" Name="Diagram1" ZoomLevel="69">
+        <EntityTypeShape EntityType="PASTEBOOKModel.PB_COMMENT" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PASTEBOOKModel.PB_FRIENDS" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PASTEBOOKModel.PB_LIKE" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PASTEBOOKModel.PB_NOTIFICATION" Width="1.5" PointX="9.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="PASTEBOOKModel.PB_POST" Width="1.5" PointX="5.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PASTEBOOKModel.PB_USER" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PASTEBOOKModel.REF_COUNTRY" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_COMMENT_POST_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_COMMENT_POSTER_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_NOTIFICATION_COMMENT_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_FRIENDS_PB_FRIENDS" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_LIKE_LIKE_BY" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_LIKE_POST_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_NOTIFICATION_POST_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_NOTIFICATION_RECEIVER_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_NOTIFICATION_SENDER_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_POST_POSTER_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_POST_PROFILE_OWNER_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_PB_USER_COUNTRY_ID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
