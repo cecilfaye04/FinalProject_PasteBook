@@ -11,13 +11,20 @@ namespace PasteBook
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            //Source: https://www.asp.net/mvc/overview/older-versions-1/controllers-and-routing/creating-a-route-constraint-cs
+            routes.MapRoute(
+    "PasteBook",
+    "PasteBook/{username}",
+    new { controller = "PasteBook", action = "Profile" },
+    new { username = @"\w+" }
+ );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "PasteBook", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
             );
         }
+
+
     }
 }

@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="shortcut icon" type="Images/PB_Logo.png" href="~/favicon.ico" />
+    <title>@ViewBag.Title PasteBook</title>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,15 +18,61 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a class="navbar-brand">
+                    <img src="~/Content/Images/PB_Logo.png" alt="PasteBook">
+                </a>
+                @{ var user = Session["UserName"];
+                    if (user != null)
+                    {
+                        <div class="navbar-brand">
+                            @Html.TextBox("Search", null, new { @class = "form-control", id = "inputDefault", placeholder = "Search.." })
+                        </div>
+                        <div class="navbar-brand">
+                            <a href="#" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                        </div>
+                    }
+                }
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse  pull-right">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @{ var username = Session["UserName"];
+                        if (username != null)
+                        {
+                            <li>@Html.ActionLink("Profile", "Profile", "PasteBook", new { username = username },null)</li>
+                        }
+                    }
+                </ul>
+                <ul class="nav navbar-nav pull-right margin10top">
+                    @{ username = Session["UserName"];
+                        if (username != null)
+                        {
+                            <li class="welcome">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        Welcome @username!
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#LoginPage" id="btnSettings">Settings</a></li>
+                                        <li><a href="@Url.Action("LoginPage", "Account")" id="btnLogout">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Login", "LoginPage", "Account")</li>
+                            <li>@Html.ActionLink("Register", "Index", "Account")</li>
+                        }
+                    }
                 </ul>
             </div>
+
+
+
+
         </div>
     </div>
     <div class="container body-content">
@@ -38,5 +86,19 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        var LogoutUrl = '@Url.Action("Logout","Account")';
+        $('#btnLogout').on('click', function () {
+            $.ajax({
+                url: LogoutUrl,
+                success: function () {
+                    $(location).attr('href', IndexUrl);
+                },
+                error: function () {
+                    alert("Something went wrong");
+                }
+            });
+        });
+    </script>
 </body>
 </html>

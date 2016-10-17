@@ -8,22 +8,15 @@ namespace PasteBook.Controllers
 {
     public class PasteBookController : Controller
     {
+        // GET: PasteBook
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        public new ActionResult Profile(string username)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
