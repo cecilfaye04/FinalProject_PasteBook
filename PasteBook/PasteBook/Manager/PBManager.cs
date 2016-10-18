@@ -55,5 +55,6 @@ namespace PasteBook
             bool result = false;
             return result = manager.CheckIfEmailExist(email);
         }
+
     }
 }

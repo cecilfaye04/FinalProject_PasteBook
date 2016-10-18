@@ -27,16 +27,17 @@
                         <div class="navbar-brand">
                             @Html.TextBox("Search", null, new { @class = "form-control", id = "inputDefault", placeholder = "Search.." })
                         </div>
+                      
                         <div class="navbar-brand">
-                            <a href="#" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                            <a href="@Url.Action("Friend", "PasteBook")" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
                         </div>
-                    }
+                            }
+                      
                 }
             </div>
             <div class="navbar-collapse collapse  pull-right">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "PasteBook")</li>
                     @{ var username = Session["UserName"];
                         if (username != null)
                         {

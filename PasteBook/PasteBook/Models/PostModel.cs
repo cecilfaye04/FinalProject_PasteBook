@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PasteBook.Models
+namespace PasteBook
 {
     public class PostModel
     {
@@ -11,6 +11,10 @@ namespace PasteBook.Models
         public System.DateTime Created_Date { get; set; }
         public string Content { get; set; }
         public int Profile_Owner_ID { get; set; }
+        public string Poster_Name { get; set; }
+        public string Owner_Name { get; set; }
         public int Poster_ID { get; set; }
+      
+
     }
 }

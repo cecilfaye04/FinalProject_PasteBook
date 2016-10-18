@@ -88,7 +88,7 @@
                         @Html.DropDownListFor(model => model.UserModel.Gender, new SelectList(
                   new List<Object>{ new { value = "U" , text = "Undefined"  },
                                    new { value = "F" , text = "Female" },
-                                   new { value = "M" , text = "Male"} }, "value",   "text"), new { @class = "form-control" })
+                                   new { value = "M" , text = "Male"} }, "value","text"), new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserModel.Gender, "", new { @class = "text-danger" })
                     </div>
                 </div>

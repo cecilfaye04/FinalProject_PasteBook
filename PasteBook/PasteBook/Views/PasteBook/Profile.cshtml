@@ -1,11 +1,134 @@
-﻿
+﻿@model PasteBook.ViewModel
 
-<br />asdasdads<br />asdasdads<br />asdasdads<br />asdasdads<br />asdasdads<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
-<br />asdasdads<br />asdasdads
+<div class="container" id="profile">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="well" id="imageProfile">
+                <img src="~/Content/Images/default.png" />
+                @if (Model.UserModel.User_Name == (string)Session["UserName"])
+                {
+                <a href="#" class="btn btn-link" data-toggle="modal" data-target="#profilePicture">Edit Profile Picture</a>
+                }
+
+            </div>
+            <div class="well">
+                <p>
+                    @Html.Label("Fullname:")
+                    @Html.DisplayFor(x => x.UserModel.First_Name) @Html.DisplayFor(x => x.UserModel.Last_Name)
+                </p>
+                <p>
+                    @Html.LabelFor(x => x.UserModel.User_Name):
+                    @Html.DisplayFor(x => x.UserModel.User_Name)
+                </p>
+                <p>
+                    @Html.LabelFor(x => x.UserModel.Email_Address):
+                    @Html.DisplayFor(x => x.UserModel.Email_Address)
+                </p>
+                <p>
+                    @Html.LabelFor(x => x.UserModel.Mobile_No):
+                    @Html.DisplayFor(x => x.UserModel.Mobile_No)
+                </p>
+                <p>
+                    @Html.LabelFor(x => x.UserModel.Birthday):
+                    @Html.DisplayFor(x => x.UserModel.Birthday)
+                </p>
+                <p>
+                    @Html.LabelFor(x => x.UserModel.Gender):
+                    @if (Model.UserModel.Gender[0] == 'F')
+                    {
+                    @Html.DisplayName("Female")
+                    }
+                    else if (Model.UserModel.Gender[0] == 'M')
+                    {
+                    @Html.DisplayName("Male")
+                    }
+                    else
+                    {
+                    @Html.DisplayName("Undefined")
+                    }
+                </p>
+                <p>
+                    @Html.LabelFor(x => x.UserModel.Country_ID):
+                    @Html.Raw(ViewBag.Country)
+                </p>
+            </div>
+            <div class="well">
+                @Html.Label("About Me")
+                <div class="well">
+                    @if (Model.UserModel.About_Me != null)
+                    {
+                    @Html.DisplayFor(x => x.UserModel.About_Me)
+                    <a href="#" class="btn btn-link">Edit About Me</a>
+                    }
+                    else if (Model.UserModel.User_Name == (string)Session["UserName"])
+                    {
+                    @Html.DisplayName("(Add information about you!)")
+                    <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-7">
+            <div class="well">
+                @if (Model.UserModel.User_Name != (string)Session["UserName"])
+                {
+                <a href="#" class="btn btn-primary pull-right">Add Friend</a>
+                }
+                @Html.DisplayFor(x => x.UserModel.First_Name) @Html.DisplayFor(x => x.UserModel.Last_Name)
+                <div class="well">
+                    <textarea class="form-control" rows="3" id="textArea"></textarea>
+                    <a href="#" class="btn btn-primary pull-right">Post</a>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="editAboutMe">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">About Me</h4>
+            </div>
+            @using (Html.BeginForm("Profile", "PasteBook"))
+            {
+            <div class="modal-body">
+
+                <textarea class="form-control" cols="10" rows="3" id="textArea"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="profilePicture">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Profile Picture</h4>
+            </div>
+            <div class="modal-body">
+                <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

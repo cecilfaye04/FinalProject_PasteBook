@@ -9,8 +9,6 @@ namespace PasteBook
 {
     public class AccountController : Controller
     {
-        BLToMVCMapper mapper = new BLToMVCMapper();
-        RegistrationManager manager = new RegistrationManager();
         PBManager pbManager = new PBManager();
 
         [HttpGet]
@@ -36,6 +34,7 @@ namespace PasteBook
             {
                 pbManager.AddUserAccount(model);
                 Session["UserName"] = model.UserModel.User_Name;
+                Session["ID"] = model.UserModel.ID;
                 return RedirectToAction("Index","PasteBook");
             }
             return View("Index", model);
@@ -65,6 +64,7 @@ namespace PasteBook
             if (result == true)
             {
                 Session["UserName"] = user.User_Name;
+                Session["ID"] = user.ID;
                 return RedirectToAction("Index","PasteBook");
             }
             else

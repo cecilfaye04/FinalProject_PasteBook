@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessLogic;
+using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace PasteBook
 {
     public class BLToMVCMapper
     {
+
         public List<Ref_CountryModel> CountryListMapper(List<REF_COUNTRY> country)
         {
             List<Ref_CountryModel> countryList = new List<Ref_CountryModel>();
@@ -66,7 +68,65 @@ namespace PasteBook
             return returnUser;
         }
 
+        public PB_POST AddPostMapper(PostModel post)
+        {
+            PB_POST returnPost = new PB_POST()
+            {
+                CONTENT = post.Content,
+                CREATED_DATE = post.Created_Date,
+                ID = post.ID,
+                POSTER_ID = post.Poster_ID,
+                PROFILE_OWNER_ID = post.Profile_Owner_ID
+            };
+            return returnPost;
+        }
 
+        public List<PostModel> PostListMapper(List<PB_POST> post)
+        {
+            PasteBookManager pbManager = new PasteBookManager();
+
+            List<PostModel> listOfPost = new List<PostModel>();
+            foreach (var item in post)
+            {
+                listOfPost.Add(new PostModel()
+                {
+                    Owner_Name = pbManager.GetUserByID(item.PROFILE_OWNER_ID).FIRST_NAME + " " + pbManager.GetUserByID(item.PROFILE_OWNER_ID).LAST_NAME,
+                    Poster_Name = pbManager.GetUserByID(item.POSTER_ID).FIRST_NAME + " " + pbManager.GetUserByID(item.POSTER_ID).LAST_NAME,
+                    Content = item.CONTENT,
+                    Created_Date = item.CREATED_DATE,
+                    ID = item.ID,
+                    Poster_ID = item.POSTER_ID,
+                    Profile_Owner_ID = item.PROFILE_OWNER_ID
+                });
+            }
+            return listOfPost;
+        }
+
+        public PB_LIKE LikeMapper(LikeModel like)
+        {
+            PB_LIKE returnLike = new PB_LIKE()
+            {
+              ID = like.ID,
+              LIKED_BY = like.Liked_By,
+              POST_ID = like.Post_ID
+            };
+            return returnLike;
+        }
+
+        public List<LikeModel> LikeListMapper(List<PB_LIKE> like)
+        {
+            List<LikeModel> listOfLike = new List<LikeModel>();
+            foreach (var item in like)
+            {
+                listOfLike.Add(new LikeModel()
+                {
+                    ID = item.ID,
+                    Liked_By = item.LIKED_BY,
+                    Post_ID = item.POST_ID
+                });
+            }
+            return listOfLike;
+        }
 
 
     }

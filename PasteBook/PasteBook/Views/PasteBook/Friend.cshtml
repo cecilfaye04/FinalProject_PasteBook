@@ -1,0 +1,53 @@
+﻿@*@model IEnumerable<DataAccess.PB_FRIENDS>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.USER_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FRIEND_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.REQUEST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BLOCKED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CREATED_DATE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.USER_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FRIEND_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REQUEST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BLOCKED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CREATED_DATE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>*@
+
+FRIEEEEEEEEEEEEEEEEEEEEND

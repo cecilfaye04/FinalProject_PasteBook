@@ -12,12 +12,12 @@ namespace PasteBook
         public static void RegisterRoutes(RouteCollection routes)
         {
             //Source: https://www.asp.net/mvc/overview/older-versions-1/controllers-and-routing/creating-a-route-constraint-cs
-            routes.MapRoute(
-    "PasteBook",
-    "PasteBook/{username}",
-    new { controller = "PasteBook", action = "Profile" },
-    new { username = @"\w+" }
- );
+ //           routes.MapRoute(
+ //   "PasteBook",
+ //   "PasteBook/{username}",
+ //   new { controller = "PasteBook", action = "Profile" },
+ //   new { username = @"\w+" }
+ //);
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
