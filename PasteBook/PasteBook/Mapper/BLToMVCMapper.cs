@@ -128,6 +128,43 @@ namespace PasteBook
             return listOfLike;
         }
 
+        public PB_FRIENDS FriendMapper(FriendModel model)
+        {
+           PB_FRIENDS friend = new PB_FRIENDS()
+            {
+                ID = model.ID,
+                BLOCKED = model.Blocked,
+                CREATED_DATE = model.Created_Date,
+                FRIEND_ID = model.Friend_ID,
+                REQUEST = model.Request,
+                USER_ID = model.User_ID
+            };
+            return friend;
+        }
+
+        public List<FriendModel> FriendListMapper(List<PB_FRIENDS> friend)
+        {
+            BLFriendManager friendManager = new BLFriendManager();
+            PasteBookManager pbManager = new PasteBookManager();
+
+            List<FriendModel> listOfFriends = new List<FriendModel>();
+
+            foreach (var item in friend)
+            {
+                listOfFriends.Add(new FriendModel()
+                {
+                  ID = item.ID,
+                  User_ID = item.USER_ID,
+                  Blocked = item.BLOCKED,
+                  Created_Date = item.CREATED_DATE,
+                  Friend_ID = item.FRIEND_ID,
+                  Request = item.REQUEST
+                
+                });
+            }
+            return listOfFriends;
+        }
+
 
     }
 }

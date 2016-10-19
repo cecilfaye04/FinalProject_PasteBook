@@ -1,53 +1,56 @@
-﻿@*@model IEnumerable<DataAccess.PB_FRIENDS>
+﻿@model ViewModel
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.USER_ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FRIEND_ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.REQUEST)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BLOCKED)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CREATED_DATE)
-        </th>
-        <th></th>
-    </tr>
+@using (Html.BeginForm("Profile", "PasteBook", FormMethod.Post))
+            {
+    <div id="Friend">
+        @foreach (var item in Model.FriendList)
+        {
+            if (item.User_ID == (int)Session["ID"] && item.Request == "Y")
+                    {
+                <div class="well" id="friendList">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="~/Content/Images/default.png" />
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label(@item.Friend_Name.ToString())
+                            <div class="cold-md-3">
+                                @Html.ActionLink("View Profile", "Profile", "PasteBook", new { username = @item.Friend_Username }, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (item.Friend_ID == (int)Session["ID"] && item.Request == "Y")
+            {
+                <div class="well" id="friendList">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="~/Content/Images/default.png" />
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label(@item.User_FullName.ToString())
+                            <div class="cold-md-3">
+                                @Html.ActionLink("View Profile", "Profile", "PasteBook", new { username = @item.User_UserName }, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="well">
+            Pending Request
+            @foreach (var item in Model.FriendList)
+            {
+                if (item.User_ID == (int)Session["ID"] && item.Request == "N")
+                {
+                    <img src="~/Content/Images/default.png" />
+                                    @Html.Label(@item.Friend_Name.ToString())
+                                    @Html.ActionLink("Profile", "Profile", "PasteBook", new { username = @item.Friend_Username }, new { @class = "btn btn-primary" })
+                }
+            }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.USER_ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FRIEND_ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.REQUEST)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BLOCKED)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CREATED_DATE)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+        </div>
+
+    </div>
 }
-
-</table>*@
-
-FRIEEEEEEEEEEEEEEEEEEEEND

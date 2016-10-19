@@ -1,5 +1,6 @@
 ﻿@model PasteBook.ViewModel
 
+
 <div class="container" id="profile">
     <div class="row">
         <div class="col-md-4">
@@ -7,7 +8,7 @@
                 <img src="~/Content/Images/default.png" />
                 @if (Model.UserModel.User_Name == (string)Session["UserName"])
                 {
-                <a href="#" class="btn btn-link" data-toggle="modal" data-target="#profilePicture">Edit Profile Picture</a>
+                    <a href="#" class="btn btn-link" data-toggle="modal" data-target="#profilePicture">Edit Profile Picture</a>
                 }
 
             </div>
@@ -36,20 +37,21 @@
                     @Html.LabelFor(x => x.UserModel.Gender):
                     @if (Model.UserModel.Gender[0] == 'F')
                     {
-                    @Html.DisplayName("Female")
+                        @Html.DisplayName("Female")
                     }
                     else if (Model.UserModel.Gender[0] == 'M')
                     {
-                    @Html.DisplayName("Male")
+                        @Html.DisplayName("Male")
                     }
                     else
                     {
-                    @Html.DisplayName("Undefined")
+                        @Html.DisplayName("Undefined")
                     }
                 </p>
                 <p>
                     @Html.LabelFor(x => x.UserModel.Country_ID):
                     @Html.Raw(ViewBag.Country)
+                    @Html.HiddenFor(x => x.UserModel.ID, new { id = "user_id" })
                 </p>
             </div>
             <div class="well">
@@ -57,13 +59,13 @@
                 <div class="well">
                     @if (Model.UserModel.About_Me != null)
                     {
-                    @Html.DisplayFor(x => x.UserModel.About_Me)
-                    <a href="#" class="btn btn-link">Edit About Me</a>
+                        @Html.DisplayFor(x => x.UserModel.About_Me)
+                        <a href="#" class="btn btn-link">Edit About Me</a>
                     }
                     else if (Model.UserModel.User_Name == (string)Session["UserName"])
                     {
-                    @Html.DisplayName("(Add information about you!)")
-                    <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
+                        @Html.DisplayName("(Add information about you!)")
+                        <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
                     }
                 </div>
             </div>
@@ -74,19 +76,35 @@
             <div class="well">
                 @if (Model.UserModel.User_Name != (string)Session["UserName"])
                 {
-                <a href="#" class="btn btn-primary pull-right">Add Friend</a>
+                    if (Model.FriendList.Any(x => x.Friend_ID == Model.UserModel.ID) || Model.FriendList.Any(x => x.User_ID == Model.UserModel.ID))
+                    {
+                        if (Model.FriendList.Where(x => x.Request == "Y").Any(x => x.Friend_ID == Model.UserModel.ID || x.User_ID == Model.UserModel.ID))
+                        {
+                            <input type="button" class="btn btn-success pull-right" id="friend" value="Friends" disabled>
+                        }
+                        else
+                        {
+                            <input type="button" class="btn btn-primary pull-right" id="requested" value="Requested" disabled>
+                        }
+                    }
+                    else
+                    {
+                        <input type="button" class="btn btn-primary pull-right" id="addFriend" value="Add Friend">
+                    }
+
                 }
                 @Html.DisplayFor(x => x.UserModel.First_Name) @Html.DisplayFor(x => x.UserModel.Last_Name)
                 <div class="well">
-                    <textarea class="form-control" rows="3" id="textArea"></textarea>
-                    <a href="#" class="btn btn-primary pull-right">Post</a>
+                    @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
+                    <button class="btn btn-primary pull-right" id="post">Post</button>
                 </div>
             </div>
 
-
-
-
-
+            <div id="homePartial">
+                @{
+                    Html.RenderAction("HomePartialView", "PasteBook", new { ID = Model.UserModel.ID });
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -132,3 +150,16 @@
         </div>
     </div>
 </div>
+
+
+
+@section scripts{
+    <script>
+        var addFriendUrl = '@Url.Action("AddFriend", "PasteBook")';
+        var addPostUrl = '@Url.Action("AddPost", "PasteBook")';
+        var likePostUrl = '@Url.Action("LikePost", "PasteBook")';
+        var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = @Session["ID"] })';
+        var ID = @Session["ID"];
+    </script>
+    <script src="~/Scripts/Profile.js"></script>
+}

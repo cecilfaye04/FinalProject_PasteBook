@@ -63,14 +63,14 @@ namespace BusinessLogic
             return returnValue;
         }
 
-        public List<PB_POST> RetrievePost()
+        public List<PB_POST> RetrievePost(int id)
         {
             List<PB_POST> countryList = new List<PB_POST>();
             try
             {
                 using (var context = new PASTEBOOKEntities())
                 {
-                    return countryList = context.PB_POST.OrderByDescending(x => x.CREATED_DATE ).ToList();
+                    return countryList = context.PB_POST.Where(x=>x.PROFILE_OWNER_ID == id || x.POSTER_ID == id).OrderByDescending(x => x.CREATED_DATE).ToList();
                 }
             }
             catch (Exception ex)

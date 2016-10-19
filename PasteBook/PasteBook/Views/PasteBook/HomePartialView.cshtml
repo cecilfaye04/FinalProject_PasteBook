@@ -1,0 +1,49 @@
+﻿
+@model HomeViewModel
+
+    @foreach (var item in Model.PostList)
+    {
+        <div class="well" id="newsFeedPost">
+            @if (item.Poster_ID == item.Profile_Owner_ID)
+                {
+                @Html.Hidden("postID", item.ID, new { id = "postID" })
+                <div>
+                    @Html.Label(@item.Poster_Name)
+                </div>
+            }
+            else
+            {
+                <div>
+                    @Html.Label(@item.Poster_Name) > @Html.Label(@item.Owner_Name)
+                </div>
+            }
+            <div>
+                @item.Content
+            </div>
+            <div class="pull-right"> @item.Created_Date </div>
+            <div>
+                <div>
+                    @Html.TextArea("Message", new { rows = 2, columns = 40 , id= "textAreaPost", @class= "form-control" })
+                </div>
+
+                @if (Model.LikeList == null)
+                {
+                    <button class="likeButton" value=@item.ID>Like</button>
+                }
+                else
+                {
+                    if (Model.LikeList.Any(x => x.Liked_By == (int)Session["ID"]) && Model.LikeList.Any(x => x.Post_ID == item.ID))
+                    {
+                        @Html.DisplayName("Liked")
+                    }
+                    else
+                    {
+                        <button class="likeButton" value=@item.ID>Like</button>
+                    }
+
+                }
+                <button class="Comment" value=@item.ID>Comment</button>
+            </div>
+        </div>
+    }
+

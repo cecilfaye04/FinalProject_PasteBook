@@ -1,109 +1,30 @@
-﻿@model ViewModel
-
-<div class="container" id="PostContainer">
+﻿<div class="container" id="PostContainer">
     <div class="well" id="newsFeed">
         <div class="row">
             <div class="col-md-3">
                 <img src="~/Content/Images/default.png" id="imgOwner" />
             </div>
 
-            @using (Html.BeginForm("Post", "PasteBook", FormMethod.Post))
-            {
-                <div class="col-md-9">
-                    @Html.TextAreaFor(model => model.PostModel.Content, new { @class = "form-control", id = "textAreaPost", @rows = 4 })
-                    <input type="submit" value="Post" class="btn btn-primary pull-right" id="post" />
-                </div>
-            }
+            <div class="col-md-9">
+                @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control" })
+                <button class="btn btn-primary pull-right" id="post">Post</button>
+            </div>
 
         </div>
     </div>
-
-
-    <div id="postArea">
-        @foreach (var item in Model.PostList)
-        {
-            <div class="well" id="newsFeedPost">
-                @if (item.Poster_ID == item.Profile_Owner_ID)
-                {
-                    @Html.Hidden("postID", item.ID, new { id = "postID" })
-                    <div>
-                        @Html.Label(@item.Poster_Name)
-                    </div>
-                }
-                else
-                {
-                    <div>
-                        @Html.Label(@item.Poster_Name) > @Html.Label(@item.Owner_Name)
-                    </div>
-                }
-                <div>
-                    @item.Content
-                </div>
-                <div class="pull-right"> @item.Created_Date </div>
-                <div>
-                    <div>
-                        @Html.TextAreaFor(model => model.PostModel.Content, new { @class = "form-control", id = "textAreaComment", @rows = 2 })
-                    </div>
-                    @*<button class="likeButton" value=@item.ID>Like</button>*@
-
-
-                    @if (Model.LikeList == null)
-                    {
-                        <button class="likeButton" value=@item.ID>Like</button>
-                    }
-                    else
-                    {
-                        if (Model.LikeList.Any(x => x.Liked_By == (int)Session["ID"]) && Model.LikeList.Any(x=>x.Post_ID == item.ID))
-                        {
-                            @Html.DisplayName("Liked")
-                        }
-                        else
-                        {
-                            <button class="likeButton" value=@item.ID>Like</button>
-                        }
-                      
-                    }
-                    <button class="Comment" value=@item.ID>Comment</button>
-
-                </div>
-            </div>
+    <div id="homePartial">
+        @{
+            Html.RenderAction("HomePartialView", "PasteBook",new { ID = @Session["ID"]});
         }
     </div>
 </div>
 
 @section scripts{
     <script>
+        var addPostUrl = '@Url.Action("AddPost", "PasteBook")';
         var likePostUrl = '@Url.Action("LikePost", "PasteBook")';
-
-
-        $(document).ready(function () {
-
-            $('.likeButton').on('click', function () {
-
-                var data = {
-                    "Post_ID" : this.value,
-                    "Liked_By": @Session["ID"],
-                    "ID" : null
-                }
-
-                $.ajax({
-                    url: likePostUrl,
-                    data: data,
-                    type: 'POST',
-                    success: function (data) {
-                        LikeSuccess(data);
-                    },
-                    error: function () {
-                        alert('Something went wrong')
-                    }
-                })
-            });
-            function LikeSuccess(data) {
-                $.post(data.Url, function(partial) {
-                    $('#postArea').html(partial);
-                });
-            }
-
-        })
+        var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Session["ID"] })';
+        var ID = @Session["ID"];
     </script>
+    <script src="~/Scripts/Profile.js"></script>
 }

@@ -70,11 +70,20 @@ textarea#textArea {
     width:100%;
 }
 
+button#post {
+    margin-top: 7px;
+    width: 94px;
+}
+
+input#friend, input#requested , input#addFriend{
+    margin-right: 20px;
+    margin-top: -11px;
+}
 /*********NEWS FEED*************/
 
 #newsFeed, #newsFeedPost {
 margin-top:30px;
-width: 70%;
+width: 100%;
 }
 
 img#imgOwner {

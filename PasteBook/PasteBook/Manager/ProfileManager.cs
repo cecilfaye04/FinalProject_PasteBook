@@ -31,10 +31,10 @@ namespace PasteBook
             return result = BLManager.AddPost(mapper.AddPostMapper(post));
         }
 
-        public List<PostModel> RetrievePost()
+        public List<PostModel> RetrievePost(int id)
         {
             List<PostModel> listOfPost = new List<PostModel>();
-            listOfPost = mapper.PostListMapper(BLManager.RetrievePost());
+            listOfPost = mapper.PostListMapper(BLManager.RetrievePost(id));
             return listOfPost;
         }
 

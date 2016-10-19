@@ -161,11 +161,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Manager\FriendManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
     <Compile Include="Manager\PBManager.cs" />
     <Compile Include="Mapper\BLToMVCMapper.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\FriendModel.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\LikeModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\PostModel.cs" />
@@ -200,6 +202,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Profile.js" />
     <Content Include="Scripts\Registration.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -223,6 +226,7 @@
     <Content Include="Views\PasteBook\Home.cshtml" />
     <Content Include="Views\PasteBook\Profile.cshtml" />
     <Content Include="Views\PasteBook\Friend.cshtml" />
+    <Content Include="Views\PasteBook\HomePartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
