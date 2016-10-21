@@ -1,12 +1,24 @@
-﻿@model PasteBook.ViewModel
+﻿@model PasteBook.ProfileViewModel
 
 
 <div class="container" id="profile">
     <div class="row">
         <div class="col-md-4">
             <div class="well" id="imageProfile">
-                <img src="~/Content/Images/default.png" />
-                @if (Model.UserModel.User_Name == (string)Session["UserName"])
+                @*Source:http://stackoverflow.com/questions/17952514/mvc-how-to-display-a-byte-array-image-from-model*@
+                @if (Model.UserModel.PROFILE_PIC == null)
+                {
+                    <img src="~/Content/Images/default.png" id="defProfilePicture">
+                }
+                else
+                {
+                    var base64 = Convert.ToBase64String(Model.UserModel.PROFILE_PIC);
+                    var profilePicture = String.Format("data:image/gif;base64,{0}", base64);
+
+                    <img src="@profilePicture" id="ownerProfilePicture" />
+                }
+
+                @if (Model.UserModel.USER_NAME == (string)Session["UserName"])
                 {
                     <a href="#" class="btn btn-link" data-toggle="modal" data-target="#profilePicture">Edit Profile Picture</a>
                 }
@@ -15,31 +27,31 @@
             <div class="well">
                 <p>
                     @Html.Label("Fullname:")
-                    @Html.DisplayFor(x => x.UserModel.First_Name) @Html.DisplayFor(x => x.UserModel.Last_Name)
+                    @Html.DisplayFor(x => x.UserModel.FIRST_NAME) @Html.DisplayFor(x => x.UserModel.LAST_NAME)
                 </p>
                 <p>
-                    @Html.LabelFor(x => x.UserModel.User_Name):
-                    @Html.DisplayFor(x => x.UserModel.User_Name)
+                    @Html.LabelFor(x => x.UserModel.USER_NAME):
+                    @Html.DisplayFor(x => x.UserModel.USER_NAME)
                 </p>
                 <p>
-                    @Html.LabelFor(x => x.UserModel.Email_Address):
-                    @Html.DisplayFor(x => x.UserModel.Email_Address)
+                    @Html.LabelFor(x => x.UserModel.EMAIL_ADDRESS):
+                    @Html.DisplayFor(x => x.UserModel.EMAIL_ADDRESS)
                 </p>
                 <p>
-                    @Html.LabelFor(x => x.UserModel.Mobile_No):
-                    @Html.DisplayFor(x => x.UserModel.Mobile_No)
+                    @Html.LabelFor(x => x.UserModel.MOBILE_NO):
+                    @Html.DisplayFor(x => x.UserModel.MOBILE_NO)
                 </p>
                 <p>
-                    @Html.LabelFor(x => x.UserModel.Birthday):
-                    @Html.DisplayFor(x => x.UserModel.Birthday)
+                    @Html.LabelFor(x => x.UserModel.BIRTHDAY):
+                    @Html.DisplayFor(x => x.UserModel.BIRTHDAY)
                 </p>
                 <p>
-                    @Html.LabelFor(x => x.UserModel.Gender):
-                    @if (Model.UserModel.Gender[0] == 'F')
+                    @Html.LabelFor(x => x.UserModel.GENDER):
+                    @if (Model.UserModel.GENDER[0] == 'F')
                     {
                         @Html.DisplayName("Female")
                     }
-                    else if (Model.UserModel.Gender[0] == 'M')
+                    else if (Model.UserModel.GENDER[0] == 'M')
                     {
                         @Html.DisplayName("Male")
                     }
@@ -49,20 +61,20 @@
                     }
                 </p>
                 <p>
-                    @Html.LabelFor(x => x.UserModel.Country_ID):
-                    @Html.Raw(ViewBag.Country)
+                    @Html.LabelFor(x => x.UserModel.COUNTRY_ID):
+                    @Html.DisplayFor(x => x.UserModel.REF_COUNTRY.COUNTRY)
                     @Html.HiddenFor(x => x.UserModel.ID, new { id = "user_id" })
                 </p>
             </div>
             <div class="well">
                 @Html.Label("About Me")
                 <div class="well">
-                    @if (Model.UserModel.About_Me != null)
+                    @if (Model.UserModel.ABOUT_ME != null)
                     {
-                        @Html.DisplayFor(x => x.UserModel.About_Me)
+                        @Html.DisplayFor(x => x.UserModel.ABOUT_ME)
                         <a href="#" class="btn btn-link">Edit About Me</a>
                     }
-                    else if (Model.UserModel.User_Name == (string)Session["UserName"])
+                    else if (Model.UserModel.USER_NAME == (string)Session["UserName"])
                     {
                         @Html.DisplayName("(Add information about you!)")
                         <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
@@ -74,35 +86,37 @@
 
         <div class="col-md-7">
             <div class="well">
-                @if (Model.UserModel.User_Name != (string)Session["UserName"])
+                @Html.DisplayFor(x => x.UserModel.FIRST_NAME) @Html.DisplayFor(x => x.UserModel.LAST_NAME)
+                @if (Model.UserModel.USER_NAME != (string)Session["UserName"])
                 {
-                    if (Model.FriendList.Any(x => x.Friend_ID == Model.UserModel.ID) || Model.FriendList.Any(x => x.User_ID == Model.UserModel.ID))
+                    if (Model.FriendList.Where(x => x.REQUEST == "Y").Any(x => x.USER_ID == (int)Session["ID"] || x.FRIEND_ID == (int)Session["ID"]))
                     {
-                        if (Model.FriendList.Where(x => x.Request == "Y").Any(x => x.Friend_ID == Model.UserModel.ID || x.User_ID == Model.UserModel.ID))
-                        {
-                            <input type="button" class="btn btn-success pull-right" id="friend" value="Friends" disabled>
-                        }
-                        else
-                        {
-                            <input type="button" class="btn btn-primary pull-right" id="requested" value="Requested" disabled>
-                        }
+                        <input type="button" class="btn btn-success pull-right" id="friend" value="Friends" disabled>
+                    }
+                    else if (Model.FriendList.Where(x => x.REQUEST == "N").Any(x => x.USER_ID == (int)Session["ID"]))
+                    {
+                        <input type="button" class="btn btn-primary pull-right" id="requested" value="Friend request sent" disabled>
+                    }
+                    else if (Model.FriendList.Where(x => x.REQUEST == "N").Any(x => x.FRIEND_ID == (int)Session["ID"]))
+                    {
+                       <input type="button" class="btn btn-default pull-right" id="requested" value="Not now" ><input type="button" class="btn btn-primary pull-right" id="requested" value="Accept">
                     }
                     else
                     {
                         <input type="button" class="btn btn-primary pull-right" id="addFriend" value="Add Friend">
                     }
-
                 }
-                @Html.DisplayFor(x => x.UserModel.First_Name) @Html.DisplayFor(x => x.UserModel.Last_Name)
+            
                 <div class="well">
                     @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
                     <button class="btn btn-primary pull-right" id="post">Post</button>
+
                 </div>
             </div>
 
             <div id="homePartial">
                 @{
-                    Html.RenderAction("HomePartialView", "PasteBook", new { ID = Model.UserModel.ID });
+                    Html.RenderAction("HomePartialView", "PasteBook", new { ID = Model.UserModel.ID, Page = "Profile" });
                 }
             </div>
         </div>
@@ -119,14 +133,14 @@
             </div>
             @using (Html.BeginForm("Profile", "PasteBook"))
             {
-            <div class="modal-body">
+                <div class="modal-body">
 
-                <textarea class="form-control" cols="10" rows="3" id="textArea"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
+                    <textarea class="form-control" cols="10" rows="3" id="textArea"></textarea>
+                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
             }
         </div>
     </div>
@@ -137,16 +151,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Profile Picture</h4>
+                <h4 class="modal-title">Upload Profile Picture</h4>
             </div>
-            <div class="modal-body">
-                <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
+            @using (Html.BeginForm("EditProfilePicture", "PasteBook", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body">
+                    <img src="~/Content/Images/default.png" id="previewImage" />
+                    <input type="file" name="file" accept="image/*" id="fileButton" class="btn-primary" />
+                </div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+            }
         </div>
     </div>
 </div>
@@ -157,9 +175,39 @@
     <script>
         var addFriendUrl = '@Url.Action("AddFriend", "PasteBook")';
         var addPostUrl = '@Url.Action("AddPost", "PasteBook")';
+        var addCommentUrl = '@Url.Action("AddComment", "PasteBook")';
         var likePostUrl = '@Url.Action("LikePost", "PasteBook")';
-        var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = @Session["ID"] })';
+        var unlikePostUrl = '@Url.Action("UnlikePost", "PasteBook")';
+        var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Model.UserModel.ID , Page="Profile"})';
         var ID = @Session["ID"];
     </script>
     <script src="~/Scripts/Profile.js"></script>
+    <script>
+
+        $(document).on('mouseover', '.likeList', function () {
+            $('[data-toggle="popover"]').popover();
+        })
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewImage').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#fileButton").change(function(){
+            readURL(this);
+        });
+
+        $('#profilePicture').on('hidden.bs.modal', function(e)
+        {
+            $('#previewImage').attr('src', $('~/Content/Images/default.png').attr('src'));
+        });
+    </script>
 }

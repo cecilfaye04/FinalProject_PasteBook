@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PB_COMMENT">
           <Key>
             <PropertyRef Name="ID" />
@@ -83,6 +83,18 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="COUNTRY" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_FRIEND_ID_PB_USER">
+          <End Role="PB_USER" Type="Self.PB_USER" Multiplicity="1" />
+          <End Role="PB_FRIENDS" Type="Self.PB_FRIENDS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PB_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PB_FRIENDS">
+              <PropertyRef Name="FRIEND_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PB_COMMENT_POST_ID">
           <End Role="PB_POST" Type="Self.PB_POST" Multiplicity="1" />
           <End Role="PB_COMMENT" Type="Self.PB_COMMENT" Multiplicity="*" />
@@ -104,18 +116,6 @@
             </Principal>
             <Dependent Role="PB_COMMENT">
               <PropertyRef Name="POSTER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PB_FRIENDS_PB_FRIENDS">
-          <End Role="PB_FRIENDS" Type="Self.PB_FRIENDS" Multiplicity="1" />
-          <End Role="PB_FRIENDS1" Type="Self.PB_FRIENDS" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="PB_FRIENDS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="PB_FRIENDS1">
-              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -227,6 +227,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_USER_ID_PB_USER">
+          <End Role="PB_USER" Type="Self.PB_USER" Multiplicity="1" />
+          <End Role="PB_FRIENDS" Type="Self.PB_FRIENDS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PB_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PB_FRIENDS">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PASTEBOOKModelStoreContainer">
           <EntitySet Name="PB_COMMENT" EntityType="Self.PB_COMMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PB_FRIENDS" EntityType="Self.PB_FRIENDS" Schema="dbo" store:Type="Tables" />
@@ -235,6 +247,10 @@
           <EntitySet Name="PB_POST" EntityType="Self.PB_POST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PB_USER" EntityType="Self.PB_USER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REF_COUNTRY" EntityType="Self.REF_COUNTRY" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FRIEND_ID_PB_USER" Association="Self.FK_FRIEND_ID_PB_USER">
+            <End Role="PB_USER" EntitySet="PB_USER" />
+            <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+          </AssociationSet>
           <AssociationSet Name="FK_PB_COMMENT_POST_ID" Association="Self.FK_PB_COMMENT_POST_ID">
             <End Role="PB_POST" EntitySet="PB_POST" />
             <End Role="PB_COMMENT" EntitySet="PB_COMMENT" />
@@ -242,10 +258,6 @@
           <AssociationSet Name="FK_PB_COMMENT_POSTER_ID" Association="Self.FK_PB_COMMENT_POSTER_ID">
             <End Role="PB_USER" EntitySet="PB_USER" />
             <End Role="PB_COMMENT" EntitySet="PB_COMMENT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PB_FRIENDS_PB_FRIENDS" Association="Self.FK_PB_FRIENDS_PB_FRIENDS">
-            <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
-            <End Role="PB_FRIENDS1" EntitySet="PB_FRIENDS" />
           </AssociationSet>
           <AssociationSet Name="FK_PB_LIKE_LIKE_BY" Association="Self.FK_PB_LIKE_LIKE_BY">
             <End Role="PB_USER" EntitySet="PB_USER" />
@@ -283,9 +295,12 @@
             <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
             <End Role="PB_USER" EntitySet="PB_USER" />
           </AssociationSet>
+          <AssociationSet Name="FK_USER_ID_PB_USER" Association="Self.FK_USER_ID_PB_USER">
+            <End Role="PB_USER" EntitySet="PB_USER" />
+            <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PASTEBOOKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -314,6 +329,8 @@
           <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="PB_FRIENDS1" Relationship="Self.FK_PB_FRIENDS_PB_FRIENDS" FromRole="PB_FRIENDS" ToRole="PB_FRIENDS1" />
           <NavigationProperty Name="PB_FRIENDS2" Relationship="Self.FK_PB_FRIENDS_PB_FRIENDS" FromRole="PB_FRIENDS1" ToRole="PB_FRIENDS" />
+          <NavigationProperty Name="PB_USER" Relationship="PASTEBOOKModel.FK_FRIEND_ID_PB_USER" FromRole="PB_FRIENDS" ToRole="PB_USER" />
+          <NavigationProperty Name="PB_USER1" Relationship="PASTEBOOKModel.FK_USER_ID_PB_USER" FromRole="PB_FRIENDS" ToRole="PB_USER" />
         </EntityType>
         <EntityType Name="PB_LIKE">
           <Key>
@@ -382,6 +399,8 @@
           <NavigationProperty Name="PB_POST" Relationship="Self.FK_PB_POST_POSTER_ID" FromRole="PB_USER" ToRole="PB_POST" />
           <NavigationProperty Name="PB_POST1" Relationship="Self.FK_PB_POST_PROFILE_OWNER_ID" FromRole="PB_USER" ToRole="PB_POST" />
           <NavigationProperty Name="REF_COUNTRY" Relationship="Self.FK_PB_USER_COUNTRY_ID" FromRole="PB_USER" ToRole="REF_COUNTRY" />
+          <NavigationProperty Name="PB_FRIENDS" Relationship="PASTEBOOKModel.FK_FRIEND_ID_PB_USER" FromRole="PB_USER" ToRole="PB_FRIENDS" />
+          <NavigationProperty Name="PB_FRIENDS1" Relationship="PASTEBOOKModel.FK_USER_ID_PB_USER" FromRole="PB_USER" ToRole="PB_FRIENDS" />
         </EntityType>
         <EntityType Name="REF_COUNTRY">
           <Key>
@@ -591,7 +610,39 @@
             <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
             <End Role="PB_USER" EntitySet="PB_USER" />
           </AssociationSet>
+          <AssociationSet Name="FK_FRIEND_ID_PB_USER" Association="PASTEBOOKModel.FK_FRIEND_ID_PB_USER">
+            <End Role="PB_USER" EntitySet="PB_USER" />
+            <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_ID_PB_USER" Association="PASTEBOOKModel.FK_USER_ID_PB_USER">
+            <End Role="PB_USER" EntitySet="PB_USER" />
+            <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_FRIEND_ID_PB_USER">
+          <End Type="PASTEBOOKModel.PB_USER" Role="PB_USER" Multiplicity="1" />
+          <End Type="PASTEBOOKModel.PB_FRIENDS" Role="PB_FRIENDS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PB_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PB_FRIENDS">
+              <PropertyRef Name="FRIEND_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_ID_PB_USER">
+          <End Type="PASTEBOOKModel.PB_USER" Role="PB_USER" Multiplicity="1" />
+          <End Type="PASTEBOOKModel.PB_FRIENDS" Role="PB_FRIENDS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PB_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PB_FRIENDS">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

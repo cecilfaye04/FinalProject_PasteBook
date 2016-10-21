@@ -1,0 +1,10 @@
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\DataAccess.dll.config
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.xml
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\PasteBookEnitity.csprojResolveAssemblyReference.cache

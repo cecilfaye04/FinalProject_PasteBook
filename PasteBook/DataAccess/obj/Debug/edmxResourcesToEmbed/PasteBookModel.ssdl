@@ -78,6 +78,18 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="COUNTRY" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <Association Name="FK_FRIEND_ID_PB_USER">
+    <End Role="PB_USER" Type="Self.PB_USER" Multiplicity="1" />
+    <End Role="PB_FRIENDS" Type="Self.PB_FRIENDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PB_USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PB_FRIENDS">
+        <PropertyRef Name="FRIEND_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PB_COMMENT_POST_ID">
     <End Role="PB_POST" Type="Self.PB_POST" Multiplicity="1" />
     <End Role="PB_COMMENT" Type="Self.PB_COMMENT" Multiplicity="*" />
@@ -99,18 +111,6 @@
       </Principal>
       <Dependent Role="PB_COMMENT">
         <PropertyRef Name="POSTER_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PB_FRIENDS_PB_FRIENDS">
-    <End Role="PB_FRIENDS" Type="Self.PB_FRIENDS" Multiplicity="1" />
-    <End Role="PB_FRIENDS1" Type="Self.PB_FRIENDS" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="PB_FRIENDS">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="PB_FRIENDS1">
-        <PropertyRef Name="ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -222,6 +222,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_USER_ID_PB_USER">
+    <End Role="PB_USER" Type="Self.PB_USER" Multiplicity="1" />
+    <End Role="PB_FRIENDS" Type="Self.PB_FRIENDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PB_USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PB_FRIENDS">
+        <PropertyRef Name="USER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="PASTEBOOKModelStoreContainer">
     <EntitySet Name="PB_COMMENT" EntityType="Self.PB_COMMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PB_FRIENDS" EntityType="Self.PB_FRIENDS" Schema="dbo" store:Type="Tables" />
@@ -230,6 +242,10 @@
     <EntitySet Name="PB_POST" EntityType="Self.PB_POST" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PB_USER" EntityType="Self.PB_USER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="REF_COUNTRY" EntityType="Self.REF_COUNTRY" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_FRIEND_ID_PB_USER" Association="Self.FK_FRIEND_ID_PB_USER">
+      <End Role="PB_USER" EntitySet="PB_USER" />
+      <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+    </AssociationSet>
     <AssociationSet Name="FK_PB_COMMENT_POST_ID" Association="Self.FK_PB_COMMENT_POST_ID">
       <End Role="PB_POST" EntitySet="PB_POST" />
       <End Role="PB_COMMENT" EntitySet="PB_COMMENT" />
@@ -237,10 +253,6 @@
     <AssociationSet Name="FK_PB_COMMENT_POSTER_ID" Association="Self.FK_PB_COMMENT_POSTER_ID">
       <End Role="PB_USER" EntitySet="PB_USER" />
       <End Role="PB_COMMENT" EntitySet="PB_COMMENT" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PB_FRIENDS_PB_FRIENDS" Association="Self.FK_PB_FRIENDS_PB_FRIENDS">
-      <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
-      <End Role="PB_FRIENDS1" EntitySet="PB_FRIENDS" />
     </AssociationSet>
     <AssociationSet Name="FK_PB_LIKE_LIKE_BY" Association="Self.FK_PB_LIKE_LIKE_BY">
       <End Role="PB_USER" EntitySet="PB_USER" />
@@ -277,6 +289,10 @@
     <AssociationSet Name="FK_PB_USER_COUNTRY_ID" Association="Self.FK_PB_USER_COUNTRY_ID">
       <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
       <End Role="PB_USER" EntitySet="PB_USER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_ID_PB_USER" Association="Self.FK_USER_ID_PB_USER">
+      <End Role="PB_USER" EntitySet="PB_USER" />
+      <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -1,12 +1,28 @@
-﻿<div class="container" id="PostContainer">
+﻿@model ProfileViewModel
+
+@Html.HiddenFor(x => x.UserModel.ID, new { id = "user_id" })
+
+<div class="container" id="PostContainer">
     <div class="well" id="newsFeed">
         <div class="row">
-            <div class="col-md-3">
-                <img src="~/Content/Images/default.png" id="imgOwner" />
-            </div>
+            <div class="col-md-3" id="divImage">
+                @if (Model.UserModel.PROFILE_PIC == null)
+                {
+                    <img src="~/Content/Images/default.png" id="defProfilePicture">
+                }
+                else
+                {
+                    var base64 = Convert.ToBase64String(Model.UserModel.PROFILE_PIC);
+                    var profilePicture = String.Format("data:image/gif;base64,{0}", base64);
 
-            <div class="col-md-9">
-                @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control" })
+                    <img src="@profilePicture" id="ownerProfilePicture" />
+                }
+            </div>
+            <div id="ownerName">
+                @Html.Label(Model.UserModel.FIRST_NAME) @Html.Label(Model.UserModel.LAST_NAME)
+            </div>
+            <div class="col-md-8" id="">
+                @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control" , placeholder="Say Something..." })
                 <button class="btn btn-primary pull-right" id="post">Post</button>
             </div>
 
@@ -14,17 +30,36 @@
     </div>
     <div id="homePartial">
         @{
-            Html.RenderAction("HomePartialView", "PasteBook",new { ID = @Session["ID"]});
+            Html.RenderAction("HomePartialView", "PasteBook",new { ID = @Session["ID"] , Page = "Home"});
         }
     </div>
 </div>
 
 @section scripts{
     <script>
+        var addFriendUrl = '@Url.Action("AddFriend", "PasteBook")';
         var addPostUrl = '@Url.Action("AddPost", "PasteBook")';
+        var addCommentUrl = '@Url.Action("AddComment", "PasteBook")';
         var likePostUrl = '@Url.Action("LikePost", "PasteBook")';
-        var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Session["ID"] })';
+        var unlikePostUrl = '@Url.Action("UnlikePost", "PasteBook")';
         var ID = @Session["ID"];
+
+        var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Session["ID"] , Page="Home"})';
+
     </script>
+<script>
+    //Source:https://www.mindstick.com/Articles/1132/auto-refresh-partial-view-in-asp-dot-net-mvc
+    $(function () {
+        setInterval(function () { $('#homePartial').load(homePageUrl); }, 60000); 
+    });
+
+
+
+        $(document).on('mouseover', '.likeList', function () {
+            $('[data-toggle="popover"]').popover();
+        })
+
+</script>
+
     <script src="~/Scripts/Profile.js"></script>
 }

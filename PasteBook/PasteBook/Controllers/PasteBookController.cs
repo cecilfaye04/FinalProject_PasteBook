@@ -1,5 +1,10 @@
-﻿using System;
+﻿using BussinessLogicLayer;
+using DataAccess;
+using DataAccessLayer;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,69 +13,129 @@ namespace PasteBook.Controllers
 {
     public class PasteBookController : Controller
     {
-        ProfileManager pbManager = new ProfileManager();
-        FriendManager friendManager = new FriendManager();
+        UserBLL userManager = new UserBLL();
+        FriendBLL friendManager = new FriendBLL();
+        PostBLL postManager = new PostBLL();
+        PostDAL postLayer = new PostDAL();
 
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            ProfileViewModel model = new ProfileViewModel();
+            model.UserModel = userManager.GetUserInfo((string)Session["UserName"]);
+            return View(model);
         }
 
-        public ActionResult HomePartialView(int ID)
+        public ActionResult HomePartialView(int ID,string page)
         {
-            HomeViewModel homeModel = new HomeViewModel();
-            homeModel.PostList = pbManager.RetrievePost(ID);
-            homeModel.LikeList = pbManager.RetrieveLike();
-            return PartialView("HomePartialView", homeModel);
+            ProfileViewModel model = new ProfileViewModel();
+            if (page == "Profile")
+            {
+                model.PostList = postLayer.RetrievePost(ID);
+            }
+            else
+            {
+                model.PostList = postManager.RetrieveHomePagePost(ID);
+            }
+          
+            return PartialView("HomePartialView", model);
         }
 
         public ActionResult Friend()
         {
-            ViewModel vmModel = new ViewModel();
-            vmModel.FriendList = friendManager.RetrieveFriend((int)Session["ID"]);
-            foreach (var item in vmModel.FriendList)
-            {
-                item.User_FullName = friendManager.GetUserByID(item.User_ID).First_Name + " " + friendManager.GetUserByID(item.User_ID).Last_Name;
-                item.User_UserName = friendManager.GetUserByID(item.User_ID).User_Name;
-                item.Friend_Username = friendManager.GetUserByID(item.Friend_ID).User_Name;
-                item.Friend_Name = friendManager.GetUserByID(item.Friend_ID).First_Name + " " + friendManager.GetUserByID(item.Friend_ID).Last_Name;
-            }
-            return View(vmModel);
+            ProfileViewModel model = new ProfileViewModel();
+            model.FriendList = friendManager.RetrieveFriendList((int)Session["ID"]);
+            return View(model);
+        }
+
+        public ActionResult Search(string Search)
+        {
+            UserViewModel model = new UserViewModel();
+            model.UserList = userManager.SearchUser(Search);
+            return View(model);
         }
 
         public new ActionResult Profile(string username)
         {
-            ViewModel model = new ViewModel();
-            model.UserModel = pbManager.GetUserInfo(username);
-            ViewBag.Country = pbManager.GetCountryName((int)model.UserModel.Country_ID);
-            model.FriendList = friendManager.RetrieveFriend((int)Session["ID"]);
+            ProfileViewModel model = new ProfileViewModel();
+            model.UserModel = userManager.GetUserInfo(username);
+            model.FriendList = friendManager.RetrieveFriendList(model.UserModel.ID);
+            
             return View(model);
         }
 
-        public JsonResult LikePost(LikeModel model)
+        public ActionResult Post(int PostID)
         {
-            pbManager.LikePost(model);
-            return Json(new { Url = Url.Action("Index"), JsonRequestBehavior.AllowGet});
+            PB_POST post = new PB_POST();
+            post = postManager.RetrieveSpecificPost(PostID);
+            return View(post);
         }
 
-        public JsonResult AddFriend(FriendModel model)
+        public ActionResult NotificationPartialView()
+        {
+            UserActionViewModel model = new UserActionViewModel();
+            model.NotificationList = postManager.RetrieveNotification((int)Session["ID"]);
+            return PartialView("NotificationPartialView", model);
+        }
+
+        [ActionName("EditProfilePicture")]
+        public new ActionResult Profile(HttpPostedFileBase file)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.InputStream.CopyTo(ms);
+                byte[] profilePic = ms.GetBuffer();
+                var User_Name = (string)Session["UserName"];
+                userManager.EditProfilePicture(User_Name, profilePic);
+                return RedirectToAction("Profile", "PasteBook", new { username = User_Name });
+            }
+        }
+
+        public ActionResult Setting()
+        {
+            return View();
+        }
+
+        public JsonResult LikePost(int Post_ID,int Receiver_ID)
+        {
+            postManager.LikePost(Post_ID, (int)Session["ID"],Receiver_ID);
+            return Json(new { Url = Url.Action("Index"), JsonRequestBehavior.AllowGet });
+        }
+
+        public JsonResult UnlikePost(int ID)
+        {
+            postManager.UnlikePost(ID);
+            return Json(new { Url = Url.Action("Index"), JsonRequestBehavior.AllowGet });
+        }
+
+        public JsonResult AddFriend(PB_FRIENDS model)
         {
             friendManager.AddFriend(model);
             return Json(new { Url = Url.Action("Profile"), JsonRequestBehavior.AllowGet });
         }
 
-        public JsonResult AddPost(string postContent)
+        public JsonResult AddPost(string postContent, int profileOwnerID)
         {
-            PostModel model = new PostModel();
-            model.Created_Date = DateTime.Now;
-            model.Poster_ID = (int)Session["ID"];
-            model.Profile_Owner_ID = (int)Session["ID"];
-            model.Content = postContent;
-            return Json(new { PostResult = pbManager.AddPost(model), JsonRequestBehavior.AllowGet });
+            PB_POST model = new PB_POST();
+            model.CREATED_DATE = DateTime.Now;
+            model.POSTER_ID = (int)Session["ID"];
+            model.PROFILE_OWNER_ID = profileOwnerID;
+            model.CONTENT = postContent;
+            return Json(new { PostResult = postManager.AddPost(model), JsonRequestBehavior.AllowGet });
         }
 
-      
+        public JsonResult AddComment(PB_COMMENT model)
+        {
+            model.DATE_CREATED = DateTime.Now;
+            model.POSTER_ID = (int)Session["ID"];
+            return Json(new { result = postManager.AddComment(model), JsonRequestBehavior.AllowGet });
+        }
+
+        //NEXT THING TO DO
+        //public JsonResult AcceptFriend(int friendID)
+        //{
+        //    return Json(new { result = friendManager.AcceptFriendRequest(friendID), JsonRequestBehavior.AllowGet });
+        //}
 
 
     }

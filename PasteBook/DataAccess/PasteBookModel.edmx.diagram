@@ -24,6 +24,8 @@
         <AssociationConnector Association="PASTEBOOKModel.FK_PB_POST_POSTER_ID" ManuallyRouted="false" />
         <AssociationConnector Association="PASTEBOOKModel.FK_PB_POST_PROFILE_OWNER_ID" ManuallyRouted="false" />
         <AssociationConnector Association="PASTEBOOKModel.FK_PB_USER_COUNTRY_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_FRIEND_ID_PB_USER" />
+        <AssociationConnector Association="PASTEBOOKModel.FK_USER_ID_PB_USER" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

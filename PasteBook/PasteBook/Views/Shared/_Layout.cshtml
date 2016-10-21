@@ -22,27 +22,43 @@
                     <img src="~/Content/Images/PB_Logo.png" alt="PasteBook">
                 </a>
                 @{ var user = Session["UserName"];
+
                     if (user != null)
                     {
-                        <div class="navbar-brand">
-                            @Html.TextBox("Search", null, new { @class = "form-control", id = "inputDefault", placeholder = "Search.." })
-                        </div>
-                      
-                        <div class="navbar-brand">
-                            <a href="@Url.Action("Friend", "PasteBook")" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
-                        </div>
-                            }
-                      
+                        using (Html.BeginForm("Search", "PasteBook"))
+                        {
+                            <div class="navbar-brand" id="searchBox">
+                                @Html.TextBox("Search", null, new { @class = "form-control", id = "inputDefault", placeholder = "Search..", name = "user" })
+
+                            </div>
+
+                            <div class="navbar-brand" id="searchBar">
+                                <button type="submit" class="btn-sm btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+
+                                @*  <a href="@Url.Action("Search", "PasteBook",new { name = Search })" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>*@
+                            </div>
+                        }
+
+                    }
+
                 }
             </div>
             <div class="navbar-collapse collapse  pull-right">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "PasteBook")</li>
+
                     @{ var username = Session["UserName"];
                         if (username != null)
                         {
-                            <li>@Html.ActionLink("Profile", "Profile", "PasteBook", new { username = username },null)</li>
-                        }
+                            <li>
+                                <div id="NotiPartialView">
+                                    @{
+                                        Html.RenderAction("NotificationPartialView", "PasteBook");
+                                    }
+                                </div>
+                            </li>
+                            <li>@Html.ActionLink("Home", "Index", "PasteBook")</li>
+                            <li>@Html.ActionLink("Profile", "Profile", "PasteBook", new { username = username }, null)</li>
+                                        }
                     }
                 </ul>
                 <ul class="nav navbar-nav pull-right margin10top">
@@ -56,8 +72,8 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#LoginPage" id="btnSettings">Settings</a></li>
-                                        <li><a href="@Url.Action("LoginPage", "Account")" id="btnLogout">Logout</a></li>
+                                        <li><a href="@Url.Action("Setting","PasteBook")" id="btnSettings"><span class="glyphicon glyphicon-cog" aria-hidden="true"> </span> Settings</a></li>
+                                        <li><a href="@Url.Action("LoginPage", "Account")" id="btnLogout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span> Logout</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -70,10 +86,6 @@
                     }
                 </ul>
             </div>
-
-
-
-
         </div>
     </div>
     <div class="container body-content">
@@ -88,6 +100,47 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script>
+        var acceptFriendUrl = '@Url.Action("AcceptFriend", "PasteBook")';
+    </script>
+    <script>
+
+
+        //$(document).on('click', '.btnAcceptRequest', function () {
+        //    var data = {
+        //        "friendID": this.value,
+        //        "Receiver_ID": $('#posterID').attr('value')
+        //        //"Liked_By": ID,
+        //        //"ID" : null
+        //    }
+
+        //    $.ajax({
+        //        url: likePostUrl,
+        //        data: data,
+        //        type: 'POST',
+        //        success: function (data) {
+        //            LikeSuccess(data);
+        //        },
+        //        error: function () {
+        //            alert('Something went wrong')
+        //        }
+        //    })
+        //    function LikeSuccess(data) {
+        //        $(document).trigger('ready');
+        //        $("#homePartial").load(homePageUrl);
+        //    }
+        //})
+
+
+
+
+
+        @*var homePageUrl = '@Url.Action("HomePartialView", "PasteBook")'
+        $(function () {
+            setInterval(function () { $('#NotiPartialView').load(); }, 2000);
+        });*@
+
+
+
         var LogoutUrl = '@Url.Action("Logout","Account")';
         $('#btnLogout').on('click', function () {
             $.ajax({

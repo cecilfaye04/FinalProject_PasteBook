@@ -1,0 +1,14 @@
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\obj\Debug\BussinessLogicLayer.csprojResolveAssemblyReference.cache
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\BussinessLogicLayer.dll.config
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\BussinessLogicLayer.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\BussinessLogicLayer.pdb
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\BusinessLogic.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\DataAccess.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\EntityFramework.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\BusinessLogic.pdb
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\DataAccess.pdb
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\EntityFramework.xml
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\obj\Debug\BussinessLogicLayer.dll
+C:\Users\Bootcamp\Source\Repos\FinalProject_PasteBook\PasteBook\BussinessLogicLayer\obj\Debug\BussinessLogicLayer.pdb

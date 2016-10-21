@@ -11,7 +11,8 @@ namespace DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PB_USER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,21 +24,49 @@ namespace DataAccess
             this.PB_NOTIFICATION1 = new HashSet<PB_NOTIFICATION>();
             this.PB_POST = new HashSet<PB_POST>();
             this.PB_POST1 = new HashSet<PB_POST>();
+            this.PB_FRIENDS = new HashSet<PB_FRIENDS>();
+            this.PB_FRIENDS1 = new HashSet<PB_FRIENDS>();
         }
     
         public int ID { get; set; }
+
+        [Display(Name = "User Name")]
+        [Required]
         public string USER_NAME { get; set; }
+
+        [Display(Name = "Password")]
+        [Required]
+        [DataType(DataType.Password)]
         public string PASSWORD { get; set; }
+
         public string SALT { get; set; }
+
+        [Display(Name = "First Name")]
+        [Required]
         public string FIRST_NAME { get; set; }
+
+        [Display(Name = "Last Name")]
+        [Required]
         public string LAST_NAME { get; set; }
+        [Display(Name = "Birthdate")]
+        [Required]
         public System.DateTime BIRTHDAY { get; set; }
+
+        [Display(Name = "Country")]
         public Nullable<int> COUNTRY_ID { get; set; }
+
+        [Display(Name = "Mobile No")]
         public string MOBILE_NO { get; set; }
+
+        [Display(Name = "Gender")]
         public string GENDER { get; set; }
+
         public byte[] PROFILE_PIC { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
         public string ABOUT_ME { get; set; }
+
+        [Display(Name = "Email Address")]
+        [Required]
         public string EMAIL_ADDRESS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -53,5 +82,9 @@ namespace DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PB_POST> PB_POST1 { get; set; }
         public virtual REF_COUNTRY REF_COUNTRY { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PB_FRIENDS> PB_FRIENDS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PB_FRIENDS> PB_FRIENDS1 { get; set; }
     }
 }

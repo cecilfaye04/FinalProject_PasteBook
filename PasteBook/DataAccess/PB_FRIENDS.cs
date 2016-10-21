@@ -23,5 +23,7 @@ namespace DataAccess
     
         public virtual PB_FRIENDS PB_FRIENDS1 { get; set; }
         public virtual PB_FRIENDS PB_FRIENDS2 { get; set; }
+        public virtual PB_USER PB_USER { get; set; }
+        public virtual PB_USER PB_USER1 { get; set; }
     }
 }

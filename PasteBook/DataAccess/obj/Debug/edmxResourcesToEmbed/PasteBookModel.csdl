@@ -25,6 +25,8 @@
     <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="PB_FRIENDS1" Relationship="Self.FK_PB_FRIENDS_PB_FRIENDS" FromRole="PB_FRIENDS" ToRole="PB_FRIENDS1" />
     <NavigationProperty Name="PB_FRIENDS2" Relationship="Self.FK_PB_FRIENDS_PB_FRIENDS" FromRole="PB_FRIENDS1" ToRole="PB_FRIENDS" />
+    <NavigationProperty Name="PB_USER" Relationship="PASTEBOOKModel.FK_FRIEND_ID_PB_USER" FromRole="PB_FRIENDS" ToRole="PB_USER" />
+    <NavigationProperty Name="PB_USER1" Relationship="PASTEBOOKModel.FK_USER_ID_PB_USER" FromRole="PB_FRIENDS" ToRole="PB_USER" />
   </EntityType>
   <EntityType Name="PB_LIKE">
     <Key>
@@ -93,6 +95,8 @@
     <NavigationProperty Name="PB_POST" Relationship="Self.FK_PB_POST_POSTER_ID" FromRole="PB_USER" ToRole="PB_POST" />
     <NavigationProperty Name="PB_POST1" Relationship="Self.FK_PB_POST_PROFILE_OWNER_ID" FromRole="PB_USER" ToRole="PB_POST" />
     <NavigationProperty Name="REF_COUNTRY" Relationship="Self.FK_PB_USER_COUNTRY_ID" FromRole="PB_USER" ToRole="REF_COUNTRY" />
+    <NavigationProperty Name="PB_FRIENDS" Relationship="PASTEBOOKModel.FK_FRIEND_ID_PB_USER" FromRole="PB_USER" ToRole="PB_FRIENDS" />
+    <NavigationProperty Name="PB_FRIENDS1" Relationship="PASTEBOOKModel.FK_USER_ID_PB_USER" FromRole="PB_USER" ToRole="PB_FRIENDS" />
   </EntityType>
   <EntityType Name="REF_COUNTRY">
     <Key>
@@ -302,5 +306,37 @@
       <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
       <End Role="PB_USER" EntitySet="PB_USER" />
     </AssociationSet>
+    <AssociationSet Name="FK_FRIEND_ID_PB_USER" Association="PASTEBOOKModel.FK_FRIEND_ID_PB_USER">
+      <End Role="PB_USER" EntitySet="PB_USER" />
+      <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_ID_PB_USER" Association="PASTEBOOKModel.FK_USER_ID_PB_USER">
+      <End Role="PB_USER" EntitySet="PB_USER" />
+      <End Role="PB_FRIENDS" EntitySet="PB_FRIENDS" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK_FRIEND_ID_PB_USER">
+    <End Type="PASTEBOOKModel.PB_USER" Role="PB_USER" Multiplicity="1" />
+    <End Type="PASTEBOOKModel.PB_FRIENDS" Role="PB_FRIENDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PB_USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PB_FRIENDS">
+        <PropertyRef Name="FRIEND_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_ID_PB_USER">
+    <End Type="PASTEBOOKModel.PB_USER" Role="PB_USER" Multiplicity="1" />
+    <End Type="PASTEBOOKModel.PB_FRIENDS" Role="PB_FRIENDS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PB_USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PB_FRIENDS">
+        <PropertyRef Name="USER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

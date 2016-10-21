@@ -1,4 +1,5 @@
-﻿using BusinessLogic;
+﻿using BussinessLogicLayer;
+using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,34 +10,35 @@ namespace PasteBook
 {
     public class AccountController : Controller
     {
-        PBManager pbManager = new PBManager();
+        AccountBLL accountManager = new AccountBLL();
 
         [HttpGet]
         public ActionResult Index()
         {
-            Session["CountryList"] = new SelectList(pbManager.RetrieveCountry(), "ID", "Country");
+            ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY");
             return View();
         }
-        
+
         [HttpPost]
-        public ActionResult Index(ViewModel model)
+        public ActionResult Index(UserViewModel model)
         {
 
-            if (pbManager.CheckIfUserNameExists(model.UserModel.User_Name) == true)
+            if (accountManager.CheckIfUserNameExists(model.UserEF.USER_NAME) == true)
             {
-                ModelState.AddModelError("UserModel.User_Name", "Username address already exists. Please enter a different User name.");
+                ModelState.AddModelError("UserEF.USER_NAME", "Username address already exists. Please enter a different User name.");
             }
-            if (pbManager.CheckIfEmailExists(model.UserModel.Email_Address) == true)
+            if (accountManager.CheckIfEmailExists(model.UserEF.EMAIL_ADDRESS) == true)
             {
-                ModelState.AddModelError("UserModel.Email_Address", "Email address already exists. Please enter a different Email Address.");
+                ModelState.AddModelError("UserEF.EMAIL_ADDRESS", "Email address already exists. Please enter a different Email Address.");
             }
             if (ModelState.IsValid)
             {
-                pbManager.AddUserAccount(model);
-                Session["UserName"] = model.UserModel.User_Name;
-                Session["ID"] = model.UserModel.ID;
-                return RedirectToAction("Index","PasteBook");
+                accountManager.AddUserAccount(model.UserEF);
+                Session["UserName"] = model.UserEF.USER_NAME;
+                Session["ID"] = model.UserEF.ID;
+                return View("LoginPage");
             }
+            ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY");
             return View("Index", model);
         }
 
@@ -47,29 +49,29 @@ namespace PasteBook
         }
 
         [HttpPost]
-        public ActionResult LoginPage(UserModel model)
+        public ActionResult LoginPage(UserViewModel model)
         {
             bool result = false;
-            var user = pbManager.GetUser(model.Email_Address);
+            var user = accountManager.GetUser(model.UserEF.EMAIL_ADDRESS);
 
             if (user == null)
             {
-                ModelState.AddModelError("Email_Address", "Email Address doesn't exists.");
+                ModelState.AddModelError("UserEF.EMAIL_ADDRESS", "Email Address doesn't exists.");
             }
             else
             {
-                result = pbManager.Login(model);
+                result = accountManager.Login(model.UserEF);
             }
 
             if (result == true)
             {
-                Session["UserName"] = user.User_Name;
+                Session["UserName"] = user.USER_NAME;
                 Session["ID"] = user.ID;
-                return RedirectToAction("Index","PasteBook");
+                return RedirectToAction("Index", "PasteBook");
             }
             else
             {
-                ModelState.AddModelError("Password", "Incorrect Password.");
+                ModelState.AddModelError("UserEF.PASSWORD", "Incorrect Password.");
                 return View();
             }
         }

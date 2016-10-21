@@ -1,0 +1,39 @@
+﻿@model UserViewModel
+
+@using (Html.BeginForm("Profile", "PasteBook", FormMethod.Post))
+            {
+    <div id="Friend">
+        @if (Model.UserList == null)
+        {
+            @Html.DisplayName("No match!")
+        }
+        @foreach (var item in Model.UserList)
+        {
+                <div class="well" id="friendList">
+                    <div class="row">
+                        <div class="col-md-3">
+                            @if (item.PROFILE_PIC == null)
+                            {
+                                <img src="~/Content/Images/default.png" id="defProfilePicture">
+                            }
+                            else
+                            {
+                                var base64 = Convert.ToBase64String(item.PROFILE_PIC);
+                                var profilePicture = String.Format("data:image/gif;base64,{0}", base64);
+
+                                <img src="@profilePicture" id="ownerProfilePicture" />
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label(@item.FIRST_NAME) @Html.Label(@item.LAST_NAME)
+                            <div class="cold-md-3">
+                                @Html.ActionLink("View Profile", "Profile", "PasteBook", new { username = @item.USER_NAME }, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        }
+    </div>
+}
+

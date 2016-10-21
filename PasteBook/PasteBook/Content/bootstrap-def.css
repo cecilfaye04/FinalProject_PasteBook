@@ -4612,6 +4612,11 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 
+.navbar-inverse .badge {
+    color: lightyellow !important; 
+    background-color: #1abc9c !important; 
+    margin-right: -10px !important;
+}
 .navbar-inverse .navbar-link {
   color: #999999;
 }

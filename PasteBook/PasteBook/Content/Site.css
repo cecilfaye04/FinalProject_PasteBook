@@ -18,15 +18,43 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select
- {
+select {
     max-width: 280px;
 }
 
 .navbar navbar-inverse navbar-fixed-top {
-background-color: #34495e;
+    background-color: #34495e;
 }
 
+a#notification {
+    font-size: 32px;
+    height: 62px !important;
+    margin-top: -3px;
+}
+
+span.badge {
+    color: lightyellow !important;
+    background-color: #1abc9c !important;
+    margin-right: -10px !important;
+    margin-bottom: 18px;
+    margin-left: 3px;
+}
+
+div#searchBox {
+    padding: 0px 0px 0px 0px;
+    margin-top: -41px;
+    margin-left: 208px;
+}
+
+div#searchBar {
+    margin-top: -60px;
+    margin-left: 5px !important;
+}
+
+input#inputDefault {
+    width: 304px;
+    height: 37px;
+}
 
 
 /***********************************************************/
@@ -38,7 +66,7 @@ background-color: #34495e;
 }
 
 h3.panel-title {
-text-align:center;
+    text-align: center;
 }
 
 .panel-primary {
@@ -46,28 +74,66 @@ text-align:center;
 }
 
 .dropdown {
-margin-top:8px;
-
+    margin-top: 8px;
 }
+
 .navbar {
     height: 0px;
 }
 
+.scrollable-menu {
+    height: auto;
+    max-height: 250px;
+    overflow-x: hidden;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
 
+span#friendNotif {
+    margin-left: -15px;
+    font-size: 25px;
+    margin-bottom: 100px;
+}
+
+img.friendPic {
+    height: 70px;
+    width: 70px;
+    margin-left: 8px;
+}
+
+ul.dropdown-menu.scrollable-menu {
+    width: 453px;
+}
+
+button#btnNotNow, button#btnAccept {
+    margin-top: 19px;
+    margin-right: 7px;
+    border-radius: 3px;
+    font-size: 18px;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.42857143;
+}
+
+div#test {
+    float: left;
+}
 /**************PROFILE*****/
 
 #profile {
     margin-top: 36px;
+}
 
+img#ownerProfilePicture {
+    width: 200px;
+    height: 200px;
 }
 
 #imageProfile {
-text-align: center;
+    text-align: center;
 }
 
-textarea#textArea {
+textarea#textArea, textarea#commentArea {
     resize: none;
-    width:100%;
+    width: 100%;
 }
 
 button#post {
@@ -75,27 +141,54 @@ button#post {
     width: 94px;
 }
 
-input#friend, input#requested , input#addFriend{
+input#friend, input#requested, input#addFriend {
     margin-right: 20px;
     margin-top: -11px;
+}
+
+img#previewImage {
+    margin-left: 168px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 200px;
 }
 /*********NEWS FEED*************/
 
 #newsFeed, #newsFeedPost {
-margin-top:30px;
-width: 100%;
+    margin-top: 30px;
+    width: 100%;
 }
 
 img#imgOwner {
-height:150px;
-width:150px;
-margin-left:20px;
+    height: 150px;
+    width: 150px;
+    margin-left: 20px;
 }
 
 input#post {
-margin-top:10px;
-}
-textarea#textAreaPost {
-resize:none;
+    margin-top: 10px;
 }
 
+textarea#textAreaPost {
+    resize: none;
+}
+
+#divImage {
+    margin-left: 48px;
+}
+
+#ownerName {
+    margin-left: 347px;
+    margin-top: 5px;
+    margin-bottom: 13px;
+    font-size: 26px;
+}
+
+/*******Setting*******/
+ul#navigationSetting {
+    margin-top: 25px;
+}
+
+div#myTabContent {
+    width: 70%;
+}
