@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessLogic;
+using DataAccess;
 using DataAccessLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace BussinessLogicLayer
     public class AccountBLL
     {
         AccountDAL accountManager = new AccountDAL();
+        GenericDAL<PB_USER> userManager = new GenericDAL<PB_USER>(); 
 
         public List<REF_COUNTRY> RetrieveCountry()
         {
@@ -32,7 +34,8 @@ namespace BussinessLogicLayer
             user.PASSWORD = pwManager.GeneratePasswordHash(user.PASSWORD, out salt);
             user.SALT = salt;
             user.DATE_CREATED = DateTime.Now;
-            return result = accountManager.AddUser(user);
+
+            return result = userManager.GenericAdd(user);
         }
 
         public bool Login(PB_USER user)

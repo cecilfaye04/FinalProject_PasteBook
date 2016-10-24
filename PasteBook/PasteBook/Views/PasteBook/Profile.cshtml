@@ -69,17 +69,25 @@
             <div class="well">
                 @Html.Label("About Me")
                 <div class="well">
-                    @if (Model.UserModel.ABOUT_ME != null)
+                    @if (Model.UserModel.ABOUT_ME != null && Model.UserModel.USER_NAME == (string)Session["UserName"])
                     {
-                        @Html.DisplayFor(x => x.UserModel.ABOUT_ME)
-                        <a href="#" class="btn btn-link">Edit About Me</a>
+                        <div class="aboutMeContent">
+                            @Html.DisplayFor(x => x.UserModel.ABOUT_ME)
+                        </div>
+                            <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
                     }
                     else if (Model.UserModel.USER_NAME == (string)Session["UserName"])
                     {
                         @Html.DisplayName("(Add information about you!)")
                         <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
                     }
-                </div>
+                    else
+                    { 
+                         <div class="aboutMeContent">
+                        @Html.DisplayFor(x => x.UserModel.ABOUT_ME)
+                    </div>
+                        }
+                    </div>
             </div>
         </div>
 
@@ -99,14 +107,14 @@
                     }
                     else if (Model.FriendList.Where(x => x.REQUEST == "N").Any(x => x.FRIEND_ID == (int)Session["ID"]))
                     {
-                       <input type="button" class="btn btn-default pull-right" id="requested" value="Not now" ><input type="button" class="btn btn-primary pull-right" id="requested" value="Accept">
+                        <input type="button" class="btn btn-default pull-right" id="requested" value="Not now"><input type="button" class="btn btn-primary pull-right" id="requested" value="Accept">
                     }
                     else
                     {
                         <input type="button" class="btn btn-primary pull-right" id="addFriend" value="Add Friend">
                     }
                 }
-            
+
                 <div class="well">
                     @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
                     <button class="btn btn-primary pull-right" id="post">Post</button>
@@ -131,17 +139,14 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">About Me</h4>
             </div>
-            @using (Html.BeginForm("Profile", "PasteBook"))
-            {
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    <textarea class="form-control" cols="10" rows="3" id="textArea"></textarea>
-                </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-            }
+                <textarea class="form-control" cols="10" rows="3" id="aboutMetextArea"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="aboutMebtn">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -160,10 +165,10 @@
                     <input type="file" name="file" accept="image/*" id="fileButton" class="btn-primary" />
                 </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
             }
         </div>
     </div>
@@ -179,6 +184,8 @@
         var likePostUrl = '@Url.Action("LikePost", "PasteBook")';
         var unlikePostUrl = '@Url.Action("UnlikePost", "PasteBook")';
         var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Model.UserModel.ID , Page="Profile"})';
+        var editAboutMe = '@Url.Action("EditAboutMe","PasteBook")';
+        var profilePageUrl = '@Url.Action("Profile", "PasteBook",new { username= Session["UserName"]})';
         var ID = @Session["ID"];
     </script>
     <script src="~/Scripts/Profile.js"></script>

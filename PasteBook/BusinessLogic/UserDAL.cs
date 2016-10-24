@@ -92,6 +92,27 @@ namespace DataAccessLayer
             return userList = null;
         }
 
+        public int EditAboutMe(int userID, string content)
+        {
+            int returnValue = 0;
+            try
+            {
+                using (var context = new PASTEBOOKEntities())
+                {
+                    var personsToUpdate = context.PB_USER.Where(o => o.ID == userID);
+                    foreach (var item in personsToUpdate)
+                    {
+                        item.ABOUT_ME = content;
+                    }
+                    returnValue = context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                errorList.Add(ex);
+            }
+            return returnValue;
+        }
         //public string GetCountryName(int ID)
         //{
         //    string result = string.Empty;

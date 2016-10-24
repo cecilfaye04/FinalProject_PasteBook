@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessLogic;
+using DataAccess;
 using DataAccessLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,10 @@ namespace BussinessLogicLayer
     public class PostBLL
     {
         PostDAL postManager = new PostDAL();
+        GenericDAL<PB_POST> postDALManager = new GenericDAL<PB_POST>();
+        GenericDAL<PB_COMMENT> commentManager = new GenericDAL<PB_COMMENT>();
+        GenericDAL<PB_LIKE> likeManager = new GenericDAL<PB_LIKE>();
+        GenericDAL<PB_NOTIFICATION> notificationManager = new GenericDAL<PB_NOTIFICATION>();
 
         public List<PB_POST> RetrievePost(int id)
         {
@@ -25,34 +30,64 @@ namespace BussinessLogicLayer
             List<PB_FRIENDS> friendList = new List<PB_FRIENDS>();
             friendList = friendManager.RetrieveFriendList(id);
 
-            return postManager.RetrievePostHomePage(friendList,id);
+            return postManager.RetrievePostHomePage(friendList, id);
 
         }
 
-        public int AddNotification(PB_NOTIFICATION notif)
-        {
-           return postManager.AddNotification(notif);
-        }
+        //public int AddNotification(PB_NOTIFICATION notif)
+        //{
+        //   return postManager.AddNotification(notif);
+        //}
 
         public int AddPost(PB_POST post)
         {
             int result = 0;
-            return result = postManager.AddPost(post);
+            return result = postDALManager.GenericAdd(post);
         }
 
         public int AddComment(PB_COMMENT comment)
         {
-            return postManager.AddComment(comment);
+            int result = 0;
+            GenericDAL<PB_COMMENT> commentManager = new GenericDAL<PB_COMMENT>();
+            int posterID = postDALManager.GetSpecific(x => x.ID == comment.POST_ID).POSTER_ID;
+            result = commentManager.GenericAdd(comment);
+            if (result == 1 && posterID != comment.POSTER_ID)
+            {
+                PB_NOTIFICATION notif = new PB_NOTIFICATION()
+                {
+                    NOTIF_TYPE = "C",
+                    POST_ID = comment.POST_ID,
+                    SEEN = "N",
+                    SENDER_ID = comment.POSTER_ID,
+                    RECEIVER_ID = posterID,
+                    CREATED_DATE = DateTime.Now,
+                    COMMENT_ID = comment.ID
+                };
+                notificationManager.GenericAdd(notif);
+            }
+            return result;
         }
 
-        public int LikePost(int PostID,int userID,int ReceiverID)
+        public int LikePost(int PostID, int userID, int ReceiverID)
         {
             int result = 0;
             PB_LIKE like = new PB_LIKE();
             like.LIKED_BY = userID;
             like.POST_ID = PostID;
-    
-            result = postManager.AddLikePost(like,ReceiverID);
+            int posterID = postDALManager.GetSpecific(x => x.ID == like.POST_ID).POSTER_ID;
+
+            result = likeManager.GenericAdd(like);
+            if (result == 1 && like.LIKED_BY != posterID)
+            {
+                PB_NOTIFICATION notif = new PB_NOTIFICATION();
+                notif.SENDER_ID = like.LIKED_BY;
+                notif.CREATED_DATE = DateTime.Now;
+                notif.NOTIF_TYPE = "L";
+                notif.SEEN = "N";
+                notif.POST_ID = like.POST_ID;
+                notif.RECEIVER_ID = ReceiverID;
+                notificationManager.GenericAdd(notif);
+            }
             return result;
         }
 
@@ -70,28 +105,5 @@ namespace BussinessLogicLayer
         {
             return postManager.RetrieveSpecificPost(postID);
         }
-
-        //public List<PB_LIKE> RetrieveLike(int id)
-        //{
-        //    List<PB_LIKE> listOfLike = new List<PB_LIKE>();
-        //    listOfLike = postManager.RetrieveLike(id);
-        //    return listOfLike;
-        //}
-
-        //public List<PB_LIKE> RetrieveAllLike()
-        //{
-        //    List<PB_LIKE> listOfLike = new List<PB_LIKE>();
-        //    listOfLike = postManager.RetrieveAllLike();
-        //    return listOfLike;
-        //}
-
-   
-
-        //public List<PB_COMMENT> RetrieveComment()
-        //{
-        //    List<PB_COMMENT> listOfComment = new List<PB_COMMENT>();
-        //    listOfComment = postManager.RetrieveComment();
-        //    return listOfComment;
-        //}
     }
 }

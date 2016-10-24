@@ -22,7 +22,7 @@
                 @Html.Label(Model.UserModel.FIRST_NAME) @Html.Label(Model.UserModel.LAST_NAME)
             </div>
             <div class="col-md-8" id="">
-                @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control" , placeholder="Say Something..." })
+                @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say Something..." })
                 <button class="btn btn-primary pull-right" id="post">Post</button>
             </div>
 
@@ -30,7 +30,7 @@
     </div>
     <div id="homePartial">
         @{
-            Html.RenderAction("HomePartialView", "PasteBook",new { ID = @Session["ID"] , Page = "Home"});
+            Html.RenderAction("HomePartialView", "PasteBook", new { ID = @Session["ID"], Page = "Home" });
         }
     </div>
 </div>
@@ -47,11 +47,18 @@
         var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Session["ID"] , Page="Home"})';
 
     </script>
-<script>
-    //Source:https://www.mindstick.com/Articles/1132/auto-refresh-partial-view-in-asp-dot-net-mvc
-    $(function () {
-        setInterval(function () { $('#homePartial').load(homePageUrl); }, 60000); 
-    });
+    <script>
+        //Source:https://www.mindstick.com/Articles/1132/auto-refresh-partial-view-in-asp-dot-net-mvc
+    
+        $(function () {
+            setInterval(function ()
+            {
+                if (Session["ID"] != null)  {
+                    $('#homePartial').load(homePageUrl);
+                }
+            }
+                , 60000);
+        });
 
 
 
@@ -59,7 +66,7 @@
             $('[data-toggle="popover"]').popover();
         })
 
-</script>
+    </script>
 
     <script src="~/Scripts/Profile.js"></script>
 }

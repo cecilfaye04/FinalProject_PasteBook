@@ -35,6 +35,12 @@ namespace BussinessLogicLayer
         //    return result;
         //}
 
+        public int EditAboutMe(int userID, string content)
+        {
+            return userManager.EditAboutMe(userID, content);
+        }
+      
+
         public int EditProfilePicture(string username, byte[] image)
         {
             return userManager.EditProfilePicture(username, image);

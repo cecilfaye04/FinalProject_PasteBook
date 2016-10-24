@@ -134,9 +134,9 @@
 
 
 
-        @*var homePageUrl = '@Url.Action("HomePartialView", "PasteBook")'
+        @*var url = '@Url.Action("NotificationPartialView", "PasteBook")'
         $(function () {
-            setInterval(function () { $('#NotiPartialView').load(); }, 2000);
+            setInterval(function () { $('#NotiPartialView').load(url); }, 2000);
         });*@
 
 

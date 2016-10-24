@@ -69,12 +69,12 @@ namespace DataAccessLayer
                     return friendList = context.PB_FRIENDS
                         .Include("PB_USER")
                         .Include("PB_USER1")
-                        .Where(x => x.USER_ID == userID || x.FRIEND_ID == userID)
+                        .Where(x => x.REQUEST == "Y" &&x.USER_ID == userID || x.FRIEND_ID == userID)
                         .ToList();
                 }
             }
             catch (Exception ex)
-            {
+            { 
                 errorList.Add(ex);
             }
             return friendList = null;

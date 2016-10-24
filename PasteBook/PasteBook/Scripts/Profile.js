@@ -123,6 +123,29 @@
         alert("Successfully Added!")
     }
 
+    $(document).on('click', '#aboutMebtn', function () {
+        var data = {
+            "userID": ID,
+            "content": $('#aboutMetextArea').val()
+        }
+
+        $.ajax({
+            url: editAboutMe,
+            data: data,
+            type: 'POST',
+            success: function (data) {
+                editAboutMeSuccess(data);
+            },
+            error: function () {
+                alert('Something went wrong')
+            }
+        })
+
+        function editAboutMeSuccess(data) {
+            window.location.href = profilePageUrl;
+        }
+    })
+
 
 
 });

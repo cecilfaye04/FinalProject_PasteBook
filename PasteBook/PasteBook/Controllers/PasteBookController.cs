@@ -131,6 +131,11 @@ namespace PasteBook.Controllers
             return Json(new { result = postManager.AddComment(model), JsonRequestBehavior.AllowGet });
         }
 
+        public JsonResult EditAboutMe(int userID, string content)
+        {
+            return Json(new { result = userManager.EditAboutMe(userID, content), JsonRequestBehavior.AllowGet });
+        }
+
         //NEXT THING TO DO
         //public JsonResult AcceptFriend(int friendID)
         //{

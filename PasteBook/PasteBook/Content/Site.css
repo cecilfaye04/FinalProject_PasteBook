@@ -30,7 +30,10 @@ a#notification {
     font-size: 32px;
     height: 62px !important;
     margin-top: -3px;
+    background-color: transparent;
+    border-color: transparent;
 }
+
 
 span.badge {
     color: lightyellow !important;
@@ -54,6 +57,11 @@ div#searchBar {
 input#inputDefault {
     width: 304px;
     height: 37px;
+}
+
+.navbar-brand > #searchButton {
+    margin-top: -10px;
+    border: none !important;
 }
 
 
@@ -151,6 +159,13 @@ img#previewImage {
     margin-bottom: 20px;
     width: 200px;
     height: 200px;
+}
+
+div.aboutMeContent { 
+
+        word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+  
 }
 /*********NEWS FEED*************/
 
