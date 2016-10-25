@@ -59,9 +59,9 @@ namespace BusinessLogic
                     status = context.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                errorList.Add(ex);
             }
             return status;
         }
@@ -78,9 +78,9 @@ namespace BusinessLogic
                     status = context.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                errorList.Add(ex);
             }
             return 0;
         }

@@ -94,34 +94,6 @@
         }
     })
 
-    $('#addFriend').on('click', function () {
-        var data = {
-            "User_ID" : ID,
-            "Friend_ID" : $('#user_id').attr('value'),
-            "Request": 'N',
-            "Blocked" : 'N',
-            "ID" : null
-        }
-
-        $.ajax({
-            url: addFriendUrl,
-            data: data,
-            type: 'POST',
-            success: function (data) {
-                AddSuccess(data);
-            },
-            error: function () {
-                alert('Something went wrong')
-            }
-        })
-    });
-
-    function AddSuccess(data) {
-        //$.post(data.Url, function(partial) {
-        //    $('#postArea').html(partial);
-        //});
-        alert("Successfully Added!")
-    }
 
     $(document).on('click', '#aboutMebtn', function () {
         var data = {
@@ -146,6 +118,103 @@
         }
     })
 
+    $('#addFriend').on('click', function () {
+        var data = {
+            "User_ID": ID,
+            "Friend_ID": $('#user_id').attr('value'),
+            "Request": 'N',
+            "Blocked": 'N',
+            "ID": null
+        }
+
+        $.ajax({
+            url: addFriendUrl,
+            data: data,
+            type: 'POST',
+            success: function (data) {
+                AddSuccess(data);
+            },
+            error: function () {
+                alert('Something went wrong')
+            }
+        })
+    });
+
+    function AddSuccess(data) {
+        $("#profileFriendHeader").load(headerProfileUrl);
+    }
+
+    $('#btnAcceptFriend').on('click', function () {
+        var data = {
+            "friendID": $('#friend_id').attr('value'),
+        }
+
+        $.ajax({
+            url: acceptFriendUrl,
+            data: data,
+            type: 'POST',
+            success: function (data) {
+               AcceptSuccess(data);
+            },
+            error: function () {
+                alert('Something went wrong')
+            }
+        })
+    });
+
+    function AcceptSuccess(data) {
+        $("#profileFriendHeader").load(headerProfileUrl);
+    }
+
+    $('#btnRejectFriend').on('click', function () {
+        var data = {
+            "friendID": $('#friend_id').attr('value'),
+        }
+
+        $.ajax({
+            url: rejectFriendUrl,
+            data: data,
+            type: 'POST',
+            success: function (data) {
+                AcceptSuccess(data);
+            },
+            error: function () {
+                alert('Something went wrong')
+            }
+        })
+    });
+
+    function AcceptSuccess(data) {
+        $("#profileFriendHeader").load(headerProfileUrl);
+    }
+
+
+
+
+    $(document).on('mouseover', '.likeList', function () {
+        $('[data-toggle="popover"]').popover();
+    })
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#previewImage').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#fileButton").change(function () {
+        readURL(this);
+    });
+
+    $('#profilePicture').on('hidden.bs.modal', function (e) {
+        $('#previewImage').attr('src', $('~/Content/Images/default.png').attr('src'));
+    });
 
 
 });

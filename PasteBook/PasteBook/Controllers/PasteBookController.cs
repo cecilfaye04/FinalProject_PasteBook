@@ -17,6 +17,8 @@ namespace PasteBook.Controllers
         FriendBLL friendManager = new FriendBLL();
         PostBLL postManager = new PostBLL();
         PostDAL postLayer = new PostDAL();
+        AccountBLL accountManager = new AccountBLL();
+
 
         [HttpGet]
         public ActionResult Index()
@@ -59,8 +61,6 @@ namespace PasteBook.Controllers
         {
             ProfileViewModel model = new ProfileViewModel();
             model.UserModel = userManager.GetUserInfo(username);
-            model.FriendList = friendManager.RetrieveFriendList(model.UserModel.ID);
-            
             return View(model);
         }
 
@@ -78,6 +78,14 @@ namespace PasteBook.Controllers
             return PartialView("NotificationPartialView", model);
         }
 
+        public ActionResult ProfileHeaderPartialView(string username)
+        {
+            ProfileViewModel model = new ProfileViewModel();
+            model.UserModel = userManager.GetUserInfo(username);
+            model.FriendModel = friendManager.RetrieveFriend(model.UserModel.ID,(int)Session["ID"]);
+            return PartialView("ProfileHeaderPartialView", model);
+        }
+
         [ActionName("EditProfilePicture")]
         public new ActionResult Profile(HttpPostedFileBase file)
         {
@@ -91,11 +99,7 @@ namespace PasteBook.Controllers
             }
         }
 
-        public ActionResult Setting()
-        {
-            return View();
-        }
-
+        
         public JsonResult LikePost(int Post_ID,int Receiver_ID)
         {
             postManager.LikePost(Post_ID, (int)Session["ID"],Receiver_ID);
@@ -136,12 +140,16 @@ namespace PasteBook.Controllers
             return Json(new { result = userManager.EditAboutMe(userID, content), JsonRequestBehavior.AllowGet });
         }
 
-        //NEXT THING TO DO
-        //public JsonResult AcceptFriend(int friendID)
-        //{
-        //    return Json(new { result = friendManager.AcceptFriendRequest(friendID), JsonRequestBehavior.AllowGet });
-        //}
+    
+        public JsonResult AcceptFriend(int friendID)
+        {
+            return Json(new { result = friendManager.AcceptFriendRequest(friendID), JsonRequestBehavior.AllowGet });
+        }
 
+        public JsonResult RejectFriend(int friendID)
+        {
+            return Json(new { result = friendManager.RejectFriendRequest(friendID), JsonRequestBehavior.AllowGet });
+        }
 
     }
 }

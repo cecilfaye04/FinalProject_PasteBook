@@ -11,6 +11,7 @@ namespace DataAccess
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     public partial class PB_USER
@@ -30,43 +31,50 @@ namespace DataAccess
     
         public int ID { get; set; }
 
-        [Display(Name = "User Name")]
         [Required]
+        [DisplayName("Username")]
         public string USER_NAME { get; set; }
 
-        [Display(Name = "Password")]
         [Required]
+        [DisplayName("Password")]
         [DataType(DataType.Password)]
         public string PASSWORD { get; set; }
 
         public string SALT { get; set; }
 
-        [Display(Name = "First Name")]
         [Required]
+        [DisplayName("Firstname")]
         public string FIRST_NAME { get; set; }
 
-        [Display(Name = "Last Name")]
         [Required]
+        [DisplayName("Lastname")]
         public string LAST_NAME { get; set; }
-        [Display(Name = "Birthdate")]
+
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode =true)]
         public System.DateTime BIRTHDAY { get; set; }
 
-        [Display(Name = "Country")]
+        [DisplayName("Country")]
         public Nullable<int> COUNTRY_ID { get; set; }
 
-        [Display(Name = "Mobile No")]
+        [DisplayName("Mobile No")]
+        [DataType(DataType.PhoneNumber)]
         public string MOBILE_NO { get; set; }
 
-        [Display(Name = "Gender")]
+        [Required]
+        [DisplayName("Gender")]
         public string GENDER { get; set; }
 
+        [DisplayName("Profile Picture")]
         public byte[] PROFILE_PIC { get; set; }
         public System.DateTime DATE_CREATED { get; set; }
+
+        [DisplayName("About Me")]
         public string ABOUT_ME { get; set; }
 
-        [Display(Name = "Email Address")]
         [Required]
+        [DisplayName("Email Address")]
+        [EmailAddress]
         public string EMAIL_ADDRESS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -88,3 +96,4 @@ namespace DataAccess
         public virtual ICollection<PB_FRIENDS> PB_FRIENDS1 { get; set; }
     }
 }
+

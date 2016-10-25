@@ -11,6 +11,7 @@ namespace PasteBook
     public class AccountController : Controller
     {
         AccountBLL accountManager = new AccountBLL();
+        UserBLL userManager = new UserBLL();
 
         [HttpGet]
         public ActionResult Index()
@@ -73,6 +74,44 @@ namespace PasteBook
             {
                 ModelState.AddModelError("UserEF.PASSWORD", "Incorrect Password.");
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Setting()
+        {
+            PB_USER model = new PB_USER();
+            model = userManager.GetUserInfo((string)Session["UserName"]);
+            ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY", model.COUNTRY_ID);
+            return View(model);
+        }
+        
+        [HttpPost]
+        public ActionResult Setting(PB_USER model)
+        {
+            userManager.EditUserProfile(model);
+            ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY", model.COUNTRY_ID);
+            Session["UserName"] = model.USER_NAME;
+            return RedirectToAction("Setting");
+        }
+
+        [ActionName("EditSecuritySetting")]
+        public ActionResult Setting(PB_USER user, string newPassword)
+        {
+            bool result = false;
+            result = accountManager.CheckIfPasswordMatch(user.PASSWORD, (int)Session["ID"]);
+
+            if (result == true)
+            {
+                user.PASSWORD = newPassword;
+                userManager.EditSecurityAccount(user);
+
+                return RedirectToAction("Setting");
+            }
+            else
+            {
+                ModelState.AddModelError("PASSWORD", "Incorrect Password.");
+                return RedirectToAction("Setting");
             }
         }
 

@@ -16,10 +16,7 @@
                         {
                             <li><a href="@Url.Action("Post", "PasteBook",new { PostID = @item.POST_ID})"> @Html.Raw(item.PB_USER1.FIRST_NAME + " "+item.PB_USER1.LAST_NAME + " has commented on your post.") </a>  </li>
                         }
-                        else if (item.NOTIF_TYPE == "F")
-                        {
-                            <li> <a href="#"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME + " sent you a friend request.")</a> </li>
-                }
+                   
             }
         }
         else

@@ -219,8 +219,9 @@
     <Content Include="Views\PasteBook\HomePartialView.cshtml" />
     <Content Include="Views\PasteBook\NotificationPartialView.cshtml" />
     <Content Include="Views\PasteBook\Post.cshtml" />
-    <Content Include="Views\PasteBook\Setting.cshtml" />
+    <Content Include="Views\Account\Setting.cshtml" />
     <Content Include="Views\PasteBook\Search.cshtml" />
+    <Content Include="Views\PasteBook\ProfileHeaderPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

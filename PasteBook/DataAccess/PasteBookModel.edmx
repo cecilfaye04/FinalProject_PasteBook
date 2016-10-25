@@ -70,7 +70,7 @@
           <Property Name="BIRTHDAY" Type="date" Nullable="false" />
           <Property Name="COUNTRY_ID" Type="int" />
           <Property Name="MOBILE_NO" Type="varchar" MaxLength="50" />
-          <Property Name="GENDER" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="GENDER" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="PROFILE_PIC" Type="varbinary(max)" />
           <Property Name="DATE_CREATED" Type="datetime" Nullable="false" />
           <Property Name="ABOUT_ME" Type="varchar" MaxLength="2000" />
@@ -387,7 +387,7 @@
           <Property Name="BIRTHDAY" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="COUNTRY_ID" Type="Int32" />
           <Property Name="MOBILE_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GENDER" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="GENDER" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="PROFILE_PIC" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ABOUT_ME" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />

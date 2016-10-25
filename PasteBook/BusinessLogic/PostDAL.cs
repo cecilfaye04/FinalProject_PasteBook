@@ -23,7 +23,7 @@ namespace DataAccessLayer
                           .Include("PB_USER1")
                           .Include("PB_LIKE.PB_USER")
                           .Include("PB_COMMENT")
-                          .Where(x => x.PROFILE_OWNER_ID == id)
+                          .Where(x => x.PROFILE_OWNER_ID == id )
                           .OrderByDescending(x => x.CREATED_DATE)
                           .ToList();
                 }

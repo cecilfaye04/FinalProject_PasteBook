@@ -29,6 +29,7 @@ namespace BussinessLogicLayer
             FriendBLL friendManager = new FriendBLL();
             List<PB_FRIENDS> friendList = new List<PB_FRIENDS>();
             friendList = friendManager.RetrieveFriendList(id);
+            friendList = friendList.Where(x => x.REQUEST == "Y").ToList();
 
             return postManager.RetrievePostHomePage(friendList, id);
 

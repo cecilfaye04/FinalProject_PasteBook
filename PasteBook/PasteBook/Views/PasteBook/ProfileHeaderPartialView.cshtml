@@ -1,0 +1,29 @@
+﻿@model ProfileViewModel
+
+@Html.DisplayFor(x => x.UserModel.FIRST_NAME) @Html.DisplayFor(x => x.UserModel.LAST_NAME)
+
+@Html.HiddenFor(x => x.FriendModel.ID, new { id = "friend_id" })
+
+@if (Model.UserModel.USER_NAME != (string)Session["UserName"])
+            {
+    if (Model.FriendModel == null)
+    {
+        <input type="button" class="btn btn-primary pull-right" id="addFriend" value="Add Friend">
+    }
+    else if (Model.FriendModel.REQUEST == "Y")
+    {
+        <input type="button" class="btn btn-success pull-right" id="friend" value="Friends" disabled>
+    }
+    else if (Model.FriendModel.REQUEST == "N" && Model.FriendModel.USER_ID == (int)Session["ID"])
+    {
+        <input type="button" class="btn btn-primary pull-right" id="requested" value="Friend request sent" disabled>
+    }
+    else if (Model.FriendModel.REQUEST == "N" && Model.FriendModel.FRIEND_ID == (int)Session["ID"])
+    {
+        <input type="button" class="btn btn-default pull-right" id="btnRejectFriend" value="Not now"><input type="button" class="btn btn-primary pull-right" id="btnAcceptFriend" value="Accept">
+    }
+    else
+    {
+        <input type="button" class="btn btn-primary pull-right" id="addFriend" value="Add Friend">
+    }
+}

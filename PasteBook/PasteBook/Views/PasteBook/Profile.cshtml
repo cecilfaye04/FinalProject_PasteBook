@@ -47,11 +47,11 @@
                 </p>
                 <p>
                     @Html.LabelFor(x => x.UserModel.GENDER):
-                    @if (Model.UserModel.GENDER[0] == 'F')
+                    @if (Model.UserModel.GENDER == "F")
                     {
                         @Html.DisplayName("Female")
                     }
-                    else if (Model.UserModel.GENDER[0] == 'M')
+                    else if (Model.UserModel.GENDER == "M")
                     {
                         @Html.DisplayName("Male")
                     }
@@ -71,15 +71,16 @@
                 <div class="well">
                     @if (Model.UserModel.ABOUT_ME != null && Model.UserModel.USER_NAME == (string)Session["UserName"])
                     {
+                        <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe" id="editButton"><span class="glyphicon glyphicon-edit" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Edit About me"></span></a>
                         <div class="aboutMeContent">
                             @Html.DisplayFor(x => x.UserModel.ABOUT_ME)
                         </div>
-                            <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
                     }
                     else if (Model.UserModel.USER_NAME == (string)Session["UserName"])
                     {
+                        <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe" id="editButton"><span class="glyphicon glyphicon-edit" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Edit About me"></span></a>
+
                         @Html.DisplayName("(Add information about you!)")
-                        <a href="#modal" class="btn btn-link" data-toggle="modal" data-target="#editAboutMe">Edit About Me</a>
                     }
                     else
                     { 
@@ -94,26 +95,11 @@
 
         <div class="col-md-7">
             <div class="well">
-                @Html.DisplayFor(x => x.UserModel.FIRST_NAME) @Html.DisplayFor(x => x.UserModel.LAST_NAME)
-                @if (Model.UserModel.USER_NAME != (string)Session["UserName"])
-                {
-                    if (Model.FriendList.Where(x => x.REQUEST == "Y").Any(x => x.USER_ID == (int)Session["ID"] || x.FRIEND_ID == (int)Session["ID"]))
-                    {
-                        <input type="button" class="btn btn-success pull-right" id="friend" value="Friends" disabled>
-                    }
-                    else if (Model.FriendList.Where(x => x.REQUEST == "N").Any(x => x.USER_ID == (int)Session["ID"]))
-                    {
-                        <input type="button" class="btn btn-primary pull-right" id="requested" value="Friend request sent" disabled>
-                    }
-                    else if (Model.FriendList.Where(x => x.REQUEST == "N").Any(x => x.FRIEND_ID == (int)Session["ID"]))
-                    {
-                        <input type="button" class="btn btn-default pull-right" id="requested" value="Not now"><input type="button" class="btn btn-primary pull-right" id="requested" value="Accept">
-                    }
-                    else
-                    {
-                        <input type="button" class="btn btn-primary pull-right" id="addFriend" value="Add Friend">
-                    }
-                }
+           <div id="profileFriendHeader">
+               @{
+                   Html.RenderAction("ProfileHeaderPartialView", "PasteBook", new { username = Model.UserModel.USER_NAME});
+               }
+           </div>
 
                 <div class="well">
                     @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
@@ -184,37 +170,18 @@
         var likePostUrl = '@Url.Action("LikePost", "PasteBook")';
         var unlikePostUrl = '@Url.Action("UnlikePost", "PasteBook")';
         var homePageUrl = '@Url.Action("HomePartialView","PasteBook",new {ID = Model.UserModel.ID , Page="Profile"})';
+        var headerProfileUrl = '@Url.Action("ProfileHeaderPartialView","PasteBook",new {username = Model.UserModel.USER_NAME})';
         var editAboutMe = '@Url.Action("EditAboutMe","PasteBook")';
         var profilePageUrl = '@Url.Action("Profile", "PasteBook",new { username= Session["UserName"]})';
+        var acceptFriendUrl = '@Url.Action("AcceptFriend","PasteBook")';
+        var rejectFriendUrl = '@Url.Action("RejectFriend","PasteBook")';
         var ID = @Session["ID"];
     </script>
     <script src="~/Scripts/Profile.js"></script>
     <script>
-
-        $(document).on('mouseover', '.likeList', function () {
-            $('[data-toggle="popover"]').popover();
-        })
-
-        function readURL(input) {
-
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#previewImage').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#fileButton").change(function(){
-            readURL(this);
-        });
-
-        $('#profilePicture').on('hidden.bs.modal', function(e)
-        {
-            $('#previewImage').attr('src', $('~/Content/Images/default.png').attr('src'));
+        
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 }

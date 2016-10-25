@@ -17,6 +17,7 @@
 
                     <img src="@profilePicture" id="ownerProfilePicture" />
                 }
+                @Html.ActionLink("View Friendlist", "Friend", "PasteBook")
             </div>
             <div id="ownerName">
                 @Html.Label(Model.UserModel.FIRST_NAME) @Html.Label(Model.UserModel.LAST_NAME)

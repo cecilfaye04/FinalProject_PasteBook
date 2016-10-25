@@ -19,15 +19,12 @@
                 @Html.Label(@item.PB_USER.FIRST_NAME) @Html.Label(@item.PB_USER.LAST_NAME)> @Html.Label(@item.PB_USER1.FIRST_NAME) @Html.Label(@item.PB_USER1.LAST_NAME)
             </div>
         }
-        <div>
+        <p class="postField">
             @item.CONTENT
-        </div>
+        </p>
 
-        <div>
-            <div id="commentField">
-
-                @Html.TextArea("Message", new { rows = 2, columns = 40, @class = "textAreaComment form-control", id = "commentArea", value = @item.ID, placeholder = "Write a comment.." })
-            </div>
+        <div id="field">
+  
 
 
             <button data-toggle="popover" title="Liked By:" data-trigger="hover" class="likeList btn-sm btn-default" data-content="@foreach (var like in item.PB_LIKE)
@@ -48,14 +45,18 @@
             }
 
             <button class="CommentButton btn-sm btn-primary" value=@item.ID><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Comment</button><br />
-            @Html.Label("Comment List")
+          
+            <div id="commentField">
+
+                @Html.TextArea("Message", new { rows = 2, columns = 40, @class = "textAreaComment form-control", id = "commentArea", value = @item.ID, placeholder = "Write a comment.." })
+            </div>
             @foreach (var comment in item.PB_COMMENT)
             {
                 <div>
                     <div>
                         @Html.DisplayName(@comment.PB_USER.FIRST_NAME) @Html.DisplayName(@comment.PB_USER.LAST_NAME)
                     </div>
-                    <div>
+                    <div class="commentList">
                         @Html.DisplayName(@comment.CONTENT)
                     </div>
                 </div>

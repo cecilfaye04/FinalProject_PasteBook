@@ -58,5 +58,13 @@ namespace BussinessLogicLayer
             return result = accountManager.CheckIfEmailExist(email);
         }
 
+        public bool CheckIfPasswordMatch(string password,int userID)
+        {
+           PasswordBLL pwManager = new PasswordBLL();
+           PB_USER oldPassword =  userManager.GetSpecific(x => x.ID == userID);
+
+            return pwManager.IsPasswordMatch(password, oldPassword.SALT, oldPassword.PASSWORD);
+        }
+
     }
 }

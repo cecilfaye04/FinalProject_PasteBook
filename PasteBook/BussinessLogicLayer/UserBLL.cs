@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessLogic;
+using DataAccess;
 using DataAccessLayer;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace BussinessLogicLayer
     public class UserBLL
     {
         UserDAL userManager = new UserDAL();
-         
+        GenericDAL<PB_USER> userDAL = new GenericDAL<PB_USER>();
+
         public PB_USER GetUserInfo(string username)
         {
             return userManager.GetUserInfo(username);
@@ -28,18 +30,37 @@ namespace BussinessLogicLayer
             return searchResult = userManager.SearchUser(name);
         }
 
-        //public string GetCountryName(int id)
-        //{
-        //    string result = string.Empty;
-        //    result = userManager.GetCountryName(id);
-        //    return result;
-        //}
+        public int EditUserProfile(PB_USER user)
+        {
+            PB_USER baseUser = userDAL.GetSpecific(x => x.ID == user.ID);
+            int result = 0;
+            user.SALT = baseUser.SALT;
+            user.PASSWORD = baseUser.PASSWORD;
+            user.EMAIL_ADDRESS = baseUser.EMAIL_ADDRESS;
+            user.DATE_CREATED = baseUser.DATE_CREATED;
+            user.ABOUT_ME = baseUser.ABOUT_ME;
+            user.PROFILE_PIC = baseUser.PROFILE_PIC;
+
+            result = userDAL.GenericEdit(user);
+            return result;
+
+        }
+
+        public int EditSecurityAccount(PB_USER user)
+        {
+            PasswordBLL pwManager = new PasswordBLL();
+            PB_USER baseUser = userDAL.GetSpecific(x => x.ID == user.ID);
+            string salt = null;
+            baseUser.PASSWORD = pwManager.GeneratePasswordHash(user.PASSWORD, out salt);
+            baseUser.SALT = salt;
+            return userDAL.GenericEdit(baseUser);
+        }
 
         public int EditAboutMe(int userID, string content)
         {
             return userManager.EditAboutMe(userID, content);
         }
-      
+
 
         public int EditProfilePicture(string username, byte[] image)
         {

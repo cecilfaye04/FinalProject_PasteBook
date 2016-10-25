@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+        background-color: #ECECEC;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -163,15 +164,33 @@ img#previewImage {
 
 div.aboutMeContent { 
 
-        word-wrap: break-word;         /* All browsers since IE 5.5+ */
-    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+        word-wrap: break-word;        
+    overflow-wrap: break-word;     
   
+}
+
+div.commentList,div.postField {
+           word-wrap: break-word;        
+    overflow-wrap: break-word;     
+}
+
+a#editButton {
+    font-size: 25px;
+    margin-top: -104px;
+    margin-left: 257px;
 }
 /*********NEWS FEED*************/
 
 #newsFeed, #newsFeedPost {
     margin-top: 30px;
     width: 100%;
+        background-color: white;
+    border-color: black;
+}
+
+div.well{
+        background-color: white;
+    border-color: black;    
 }
 
 img#imgOwner {
@@ -198,7 +217,15 @@ textarea#textAreaPost {
     margin-bottom: 13px;
     font-size: 26px;
 }
+div#PostContainer {
+    width: 86%;
+}
 
+p.postField {
+        font-weight: bold;
+    font-size: 25px;
+    margin-left: 20px;
+}
 /*******Setting*******/
 ul#navigationSetting {
     margin-top: 25px;

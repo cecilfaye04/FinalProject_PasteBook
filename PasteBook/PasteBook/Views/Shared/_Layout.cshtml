@@ -35,7 +35,6 @@
                             <div class="navbar-brand" id="searchBar">
                                 <button type="submit" class="btn-sm btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 
-                                @*  <a href="@Url.Action("Search", "PasteBook",new { name = Search })" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>*@
                             </div>
                         }
 
@@ -72,7 +71,7 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="@Url.Action("Setting","PasteBook")" id="btnSettings"><span class="glyphicon glyphicon-cog" aria-hidden="true"> </span> Settings</a></li>
+                                        <li><a href="@Url.Action("Setting","Account")" id="btnSettings"><span class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Edit About me"> </span> Settings</a></li>
                                         <li><a href="@Url.Action("LoginPage", "Account")" id="btnLogout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span> Logout</a></li>
                                     </ul>
                                 </div>
