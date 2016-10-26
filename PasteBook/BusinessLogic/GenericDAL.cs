@@ -95,6 +95,20 @@ namespace BusinessLogic
             return item;
         }
 
-      
+        //public List<T> GetallList(Expression<Func<T, bool>> predicate)
+        //{
+        //    T item = null;
+        //    List<T> entityList = new List<T>();
+
+        //    using (var context = new PASTEBOOKEntities())
+        //    {
+        //        entityList = context.Set<T>().ToList();
+        //        item = context.Set<T>().FirstOrDefault(predicate);
+        //    }
+        //    return item;
+        //}
+
+
+
     }
 }

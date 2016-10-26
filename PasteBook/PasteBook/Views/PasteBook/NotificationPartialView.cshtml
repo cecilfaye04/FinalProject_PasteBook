@@ -1,22 +1,18 @@
 ﻿@model UserActionViewModel
 
-<div class="btn-group">
-    <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="notification"><span class="glyphicon glyphicon-globe"><span class="badge">@Model.NotificationList.Where(x => x.SEEN == "N").Count()</span></span></a>
-    <ul class="dropdown-menu scrollable-menu" role="menu">
+
         @if (Model.NotificationList != null)
         {
             foreach (var item in Model.NotificationList)
             {
                 if (item.NOTIF_TYPE == "L")
                 {
-                    
                     <li><a href="@Url.Action("Post", "PasteBook",new { PostID = @item.POST_ID})">@Html.Raw(item.PB_USER1.FIRST_NAME+ " "+ item.PB_USER1.LAST_NAME+" liked your post.")</a></li>
-                        }
-                        else if (item.NOTIF_TYPE == "C")
-                        {
-                            <li><a href="@Url.Action("Post", "PasteBook",new { PostID = @item.POST_ID})"> @Html.Raw(item.PB_USER1.FIRST_NAME + " "+item.PB_USER1.LAST_NAME + " has commented on your post.") </a>  </li>
-                        }
-                   
+                }
+                else if (item.NOTIF_TYPE == "C")
+                {
+                    <li><a href="@Url.Action("Post", "PasteBook",new { PostID = @item.POST_ID})"> @Html.Raw(item.PB_USER1.FIRST_NAME + " "+item.PB_USER1.LAST_NAME + " has commented on your post.") </a>  </li>
+                }
             }
         }
         else
@@ -24,44 +20,9 @@
             <li> <a href="#"> @Html.DisplayName("No recent Notification")</a> </li>
                     @Html.DisplayName("No recent Notification")
         }
-
         <li class="divider"></li>
         <li><a href="#">Clear</a></li>
-    </ul>
-</div>
 
 
 
-<div class="btn-group">
-    <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="notification"><span class="glyphicon glyphicon-user"><span class="glyphicon glyphicon-user" id="friendNotif"></span><span class="badge">@Model.NotificationList.Where(x => x.SEEN == "N" && x.NOTIF_TYPE=="F").Count()</span></span></a>
-    <ul class="dropdown-menu scrollable-menu" role="menu">
-        @if (Model.NotificationList != null)
-        {
-            foreach (var item in Model.NotificationList)
-            {
-                if (item.NOTIF_TYPE == "F")
-                {
-                    if (item.PB_USER1.PROFILE_PIC == null)
-                    {
 
-        <li><p><img src="~/Content/Images/default.png" class="friendPic"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME) <button class="notNow btn-default pull-right" id="btnNotNow">Not now</button><button class="btnAcceptRequest btn-primary pull-right" id="btnAccept" value="@item.">Accept</button></p> </li>
-                    }
-                    else
-                    {
-                        var base64 = Convert.ToBase64String(item.PB_USER1.PROFILE_PIC);
-                        var profilePicture = String.Format("data:image/gif;base64,{0}", base64);
-                        <li><p><img src=@profilePicture class="friendPic"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME) <button class="btn-default pull-right" id="btnNotNow">Not now</button><button class="btnAcceptRequest btn-primary pull-right" id="btnAccept">Accept</button></p> </li>
-                    }
-                }
-            }
-        }
-        else
-        {
-            <li><p>No Recent Notification<p> </li>
-          
-        }
-
-        <li class="divider"></li>
-        <li><a href="#">Clear</a></li>
-    </ul>
-</div>

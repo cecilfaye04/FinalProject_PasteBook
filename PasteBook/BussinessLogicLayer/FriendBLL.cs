@@ -40,7 +40,11 @@ namespace BussinessLogicLayer
             PB_FRIENDS friend = friendDAL.GetSpecific(x => x.ID == id);
             friend.CREATED_DATE = DateTime.Now;
             friend.REQUEST = "Y";
-            return friendDAL.GenericEdit(friend);
+            friendDAL.GenericEdit(friend);
+
+            PB_NOTIFICATION notif = notificationDAL.GetSpecific(x => x.SENDER_ID == friend.USER_ID && x.RECEIVER_ID == friend.FRIEND_ID);
+            return notificationDAL.GenericDelete(notif);
+
         }
 
         public int RejectFriendRequest(int id)

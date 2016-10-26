@@ -24,6 +24,7 @@ namespace DataAccessLayer
                           .Include("PB_LIKE.PB_USER")
                           .Include("PB_COMMENT")
                           .Where(x => x.PROFILE_OWNER_ID == id )
+                          .Take(100)
                           .OrderByDescending(x => x.CREATED_DATE)
                           .ToList();
                 }
@@ -73,6 +74,7 @@ namespace DataAccessLayer
                           .Include("PB_LIKE.PB_USER")
                           .Include("PB_COMMENT")
                           .Where(x=> user.Contains(x.POSTER_ID) || friend.Contains(x.POSTER_ID) || x.POSTER_ID == ownerID)
+                          .Take(100)
                           .OrderByDescending(x => x.CREATED_DATE)
                           .ToList();
                 }
@@ -208,7 +210,8 @@ namespace DataAccessLayer
                           .Include("PB_USER1")
                           .Include("PB_COMMENT")
                           .Include("PB_POST")
-                          .Where(x => x.RECEIVER_ID == id && x.SEEN == "N")
+                          .Where(x => x.RECEIVER_ID == id)
+                          .OrderByDescending(x=>x.CREATED_DATE)
                           .ToList();
                 }
             }
@@ -219,6 +222,32 @@ namespace DataAccessLayer
             return notifList = null;
         }
 
+        //public int SeenNotification(List<PB_NOTIFICATION> notifList)
+        //{
+        //    int returnValue = 0;
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities())
+        //        {
+        //            foreach (var item in notifList)
+        //            {
+        //                item.SEEN = "Y";
+        //            }
+
+        //            //var personsToUpdate = context.PB_USER.Where(o => o.USER_NAME == userName);
+        //            //foreach (var item in personsToUpdate)
+        //            //{
+        //            //    item.PROFILE_PIC = image;
+        //            //}
+        //            returnValue = context.SaveChanges();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorList.Add(ex);
+        //    }
+        //    return returnValue;
+        //}
      
 
         //public List<PB_COMMENT> RetrieveComment()

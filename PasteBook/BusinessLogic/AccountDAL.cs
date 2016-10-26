@@ -28,23 +28,23 @@ namespace DataAccessLayer
             return countryList = null;
         }
 
-        public int AddUser(PB_USER user)
-        {
-            int returnValue = 0;
-            try
-            {
-                using (var context = new PASTEBOOKEntities())
-                {
-                    context.PB_USER.Add(user);
-                    returnValue = context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                errorList.Add(ex);
-            }
-            return returnValue;
-        }
+        //public int AddUser(PB_USER user)
+        //{
+        //    int returnValue = 0;
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities())
+        //        {
+        //            context.PB_USER.Add(user);
+        //            returnValue = context.SaveChanges();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorList.Add(ex);
+        //    }
+        //    return returnValue;
+        //}
 
         public PB_USER GetUser(string email)
         {

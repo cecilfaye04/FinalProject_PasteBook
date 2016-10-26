@@ -27,7 +27,7 @@ select {
     background-color: #34495e;
 }
 
-a#notification {
+a#Friendnotification, a#notification {
     font-size: 32px;
     height: 62px !important;
     margin-top: -3px;

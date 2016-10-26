@@ -23,7 +23,8 @@ namespace BussinessLogicLayer
 
         public PB_USER GetUser(string email)
         {
-            return accountManager.GetUser(email); ;
+            //userManager.GetSpecific(x => x.EMAIL_ADDRESS.ToLower() == email);
+            return accountManager.GetUser(email); 
         }
 
         public int AddUserAccount(PB_USER user)

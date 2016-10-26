@@ -21,6 +21,7 @@ namespace PasteBook.Controllers
 
 
         [HttpGet]
+        [Route("Pastebook.com")]
         public ActionResult Index()
         {
             ProfileViewModel model = new ProfileViewModel();
@@ -42,7 +43,7 @@ namespace PasteBook.Controllers
           
             return PartialView("HomePartialView", model);
         }
-
+        [Route("Pastebook.com/Friend")]
         public ActionResult Friend()
         {
             ProfileViewModel model = new ProfileViewModel();
@@ -57,6 +58,7 @@ namespace PasteBook.Controllers
             return View(model);
         }
 
+        [Route("Pastebook.com/{username:minlength(1)}")]
         public new ActionResult Profile(string username)
         {
             ProfileViewModel model = new ProfileViewModel();
@@ -64,6 +66,7 @@ namespace PasteBook.Controllers
             return View(model);
         }
 
+        [Route("Pastebook.com/post/{postID}")]
         public ActionResult Post(int PostID)
         {
             PB_POST post = new PB_POST();
@@ -76,6 +79,13 @@ namespace PasteBook.Controllers
             UserActionViewModel model = new UserActionViewModel();
             model.NotificationList = postManager.RetrieveNotification((int)Session["ID"]);
             return PartialView("NotificationPartialView", model);
+        }
+
+        public ActionResult FriendNotificationPartialView()
+        {
+            UserActionViewModel model = new UserActionViewModel();
+            model.NotificationList = postManager.RetrieveNotification((int)Session["ID"]);
+            return PartialView("FriendNotificationPartialView", model);
         }
 
         public ActionResult ProfileHeaderPartialView(string username)
@@ -149,6 +159,16 @@ namespace PasteBook.Controllers
         public JsonResult RejectFriend(int friendID)
         {
             return Json(new { result = friendManager.RejectFriendRequest(friendID), JsonRequestBehavior.AllowGet });
+        }
+
+        public JsonResult SeenNotification(int userID,string type)
+        {
+            return Json(new {result = postManager.SeenNotification(userID,type),JsonRequestBehavior.AllowGet });
+        }
+
+        public JsonResult CountNotification(int ID,string type)
+        {
+            return Json(new { result = postManager.CountNotification(ID, type), JsonRequestBehavior.AllowGet });
         }
 
     }

@@ -95,8 +95,45 @@ namespace PasteBook
             return RedirectToAction("Setting");
         }
 
-        [ActionName("EditSecuritySetting")]
-        public ActionResult Setting(PB_USER user, string newPassword)
+        [HttpGet]
+        public ActionResult AccountSetting()
+        {
+            PB_USER model = new PB_USER();
+            model = userManager.GetUserInfo((string)Session["UserName"]);
+            model.PASSWORD = null;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AccountSetting(PB_USER user,string password)
+        {
+            bool result = false;
+            result = accountManager.CheckIfPasswordMatch(user.PASSWORD, (int)Session["ID"]);
+
+            if (result == true)
+            {
+                user.PASSWORD = password;
+                userManager.EditAccountSetting(user);
+                return RedirectToAction("AccountSetting");
+            }
+            else
+            {
+                ModelState.AddModelError("PASSWORD", "Incorrect Password.");
+                return View(user);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult SecuritySetting()
+        {
+            PB_USER model = new PB_USER();
+            model = userManager.GetUserInfo((string)Session["UserName"]);
+            model.PASSWORD = null; 
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SecuritySetting(PB_USER user,string newPassword)
         {
             bool result = false;
             result = accountManager.CheckIfPasswordMatch(user.PASSWORD, (int)Session["ID"]);
@@ -106,14 +143,15 @@ namespace PasteBook
                 user.PASSWORD = newPassword;
                 userManager.EditSecurityAccount(user);
 
-                return RedirectToAction("Setting");
+                return RedirectToAction("SecuritySetting");
             }
             else
             {
                 ModelState.AddModelError("PASSWORD", "Incorrect Password.");
-                return RedirectToAction("Setting");
+                return View(user);
             }
         }
+
 
         public JsonResult Logout()
         {

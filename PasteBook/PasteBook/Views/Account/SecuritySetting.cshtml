@@ -1,0 +1,26 @@
+﻿@model DataAccess.PB_USER
+
+@using (Html.BeginForm("SecuritySetting", "Account",FormMethod.Post))
+            {
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.PASSWORD, null, new { @class = "form-control", display = "none" })
+            @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+        </div>
+    </div>
+                <div class="form-group">
+                    @Html.Label("New password", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("newPassword", "", new { @class = "form-control" })
+                        @Html.ValidationMessage("newPassword", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+}

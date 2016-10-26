@@ -51,15 +51,15 @@
     <script>
         //Source:https://www.mindstick.com/Articles/1132/auto-refresh-partial-view-in-asp-dot-net-mvc
     
-        $(function () {
-            setInterval(function ()
-            {
-                //if (Session["ID"] != null)  {
-                    $('#homePartial').load(homePageUrl);
-                //}
-            }
-                , 60000);
-        });
+        //$(function () {
+        //    setInterval(function ()
+        //    {
+        //        //if (Session["ID"] != null)  {
+        //            $('#homePartial').load(homePageUrl);
+        //        //}
+        //    }
+        //        , 60000);
+        //});
         $(document).on('mouseover', '.likeList', function () {
             $('[data-toggle="popover"]').popover();
         })

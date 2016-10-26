@@ -56,6 +56,15 @@ namespace BussinessLogicLayer
             return userDAL.GenericEdit(baseUser);
         }
 
+
+        public int EditAccountSetting(PB_USER user)
+        {
+            PasswordBLL pwManager = new PasswordBLL();
+            PB_USER baseUser = userDAL.GetSpecific(x => x.ID == user.ID);
+            baseUser.EMAIL_ADDRESS = user.EMAIL_ADDRESS;
+            return userDAL.GenericEdit(baseUser);
+        }
+
         public int EditAboutMe(int userID, string content)
         {
             return userManager.EditAboutMe(userID, content);

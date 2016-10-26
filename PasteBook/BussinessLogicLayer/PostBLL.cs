@@ -75,10 +75,10 @@ namespace BussinessLogicLayer
             PB_LIKE like = new PB_LIKE();
             like.LIKED_BY = userID;
             like.POST_ID = PostID;
-            int posterID = postDALManager.GetSpecific(x => x.ID == like.POST_ID).POSTER_ID;
+            var poster = postDALManager.GetSpecific(x => x.ID == like.POST_ID);
 
             result = likeManager.GenericAdd(like);
-            if (result == 1 && like.LIKED_BY != posterID)
+            if (result == 1 && like.LIKED_BY != poster.ID)
             {
                 PB_NOTIFICATION notif = new PB_NOTIFICATION();
                 notif.SENDER_ID = like.LIKED_BY;
@@ -86,7 +86,7 @@ namespace BussinessLogicLayer
                 notif.NOTIF_TYPE = "L";
                 notif.SEEN = "N";
                 notif.POST_ID = like.POST_ID;
-                notif.RECEIVER_ID = ReceiverID;
+                notif.RECEIVER_ID = poster.POSTER_ID;
                 notificationManager.GenericAdd(notif);
             }
             return result;
@@ -94,7 +94,13 @@ namespace BussinessLogicLayer
 
         public int UnlikePost(int like)
         {
-            return postManager.UnlikePost(like);
+            int result = 0;
+            PB_LIKE likeToUnlike = likeManager.GetSpecific(x => x.ID == like);
+            result = likeManager.GenericDelete(likeToUnlike);
+            //result = postManager.UnlikePost(like);
+
+            PB_NOTIFICATION notif = notificationManager.GetSpecific(x => x.POST_ID == likeToUnlike.POST_ID && x.SENDER_ID == likeToUnlike.LIKED_BY);
+            return notificationManager.GenericDelete(notif);
         }
 
         public List<PB_NOTIFICATION> RetrieveNotification(int ID)
@@ -105,6 +111,41 @@ namespace BussinessLogicLayer
         public PB_POST RetrieveSpecificPost(int postID)
         {
             return postManager.RetrieveSpecificPost(postID);
+        }
+
+        public int SeenNotification(int userID,string type)
+        {
+            int result = 0;
+            List<PB_NOTIFICATION> listOfNotification = postManager.RetreiveNotification(userID);
+            if (type == "F")
+            {
+               listOfNotification = listOfNotification.Where(x => x.NOTIF_TYPE == type && x.SEEN == "N").ToList();
+            }
+            else
+            {
+               listOfNotification = listOfNotification.Where(x => x.SEEN =="N" && x.NOTIF_TYPE == "C" || x.NOTIF_TYPE == "L").ToList();
+            }
+
+            foreach (var item in listOfNotification)
+            {
+                item.SEEN = "Y";
+               result=  notificationManager.GenericEdit(item);
+            }
+
+            return result;
+        }
+        public int CountNotification(int userID, string type) {
+            int count = 0;
+            var notificationList = postManager.RetreiveNotification(userID);
+            if (type == "F")
+            {
+                count = notificationList.Where(x => x.NOTIF_TYPE == type && x.SEEN == "N").Count();
+            }
+            else
+            {
+                count = notificationList.Where(x => x.SEEN == "N" &&( x.NOTIF_TYPE == "C" || x.NOTIF_TYPE == "L")).Count();
+            }
+            return count;
         }
     }
 }

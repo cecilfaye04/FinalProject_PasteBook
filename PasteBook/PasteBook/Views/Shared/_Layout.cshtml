@@ -29,17 +29,12 @@
                         {
                             <div class="navbar-brand" id="searchBox">
                                 @Html.TextBox("Search", null, new { @class = "form-control", id = "inputDefault", placeholder = "Search..", name = "user" })
-
                             </div>
-
                             <div class="navbar-brand" id="searchBar">
                                 <button type="submit" class="btn-sm btn-default" id="searchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-
                             </div>
                         }
-
                     }
-
                 }
             </div>
             <div class="navbar-collapse collapse  pull-right">
@@ -49,12 +44,28 @@
                         if (username != null)
                         {
                             <li>
-                                <div id="NotiPartialView">
-                                    @{
-                                        Html.RenderAction("NotificationPartialView", "PasteBook");
-                                    }
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="notification"><span class="glyphicon glyphicon-globe"><span class="badge" id="notifBadge">@*@Model.NotificationList.Where(x => x.SEEN == "N" && x.NOTIF_TYPE != "F").Count()*@</span></span></a>
+                                     
+                                            <ul class="dropdown-menu scrollable-menu" role="menu" id="eto">
+                                                @{
+                                                    Html.RenderAction("NotificationPartialView", "PasteBook");
+                                                }
+                                            </ul>
                                 </div>
-                            </li>
+                                </li>
+                                <li>
+                                        <div class="btn-group">
+                                            <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="Friendnotification"><span class="glyphicon glyphicon-user"><span class="glyphicon glyphicon-user" id="friendNotif"></span><span class="badge" id="friendBadge">@*@Model.NotificationList.Where(x => x.SEEN == "N" && x.NOTIF_TYPE == "F").Count()*@</span></span></a>
+                                        
+                                                <ul class="dropdown-menu scrollable-menu" role="menu">
+
+                                                    @{
+                                                        Html.RenderAction("FriendNotificationPartialView", "PasteBook");
+                                                    }
+                                                </ul>
+                                    </div>
+                                </li>
                             <li>@Html.ActionLink("Home", "Index", "PasteBook")</li>
                             <li>@Html.ActionLink("Profile", "Profile", "PasteBook", new { username = username }, null)</li>
                                         }
@@ -71,7 +82,9 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="@Url.Action("Setting","Account")" id="btnSettings"><span class="glyphicon glyphicon-cog" data-toggle="tooltip" title="Edit About me"> </span> Settings</a></li>
+                                        <li><a href="@Url.Action("Setting","Account")" id="btnSettings"><span class="glyphicon glyphicon-cog"> </span> Profile Settings</a></li>
+                                        <li><a href="@Url.Action("AccountSetting","Account")" id="btnSettings"><span class="glyphicon glyphicon-cog"> </span> Account Settings</a></li>
+                                        <li><a href="@Url.Action("SecuritySetting","Account")" id="btnSettings"><span class="glyphicon glyphicon-cog"> </span> Security Settings</a></li>
                                         <li><a href="@Url.Action("LoginPage", "Account")" id="btnLogout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span> Logout</a></li>
                                     </ul>
                                 </div>
@@ -97,61 +110,142 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+   
     <script>
         var acceptFriendUrl = '@Url.Action("AcceptFriend", "PasteBook")';
+        var seenNotiUrl = '@Url.Action("SeenNotification", "PasteBook")';
+        var friendNotiUrl = '@Url.Action("FriendNotificationPartialView", "PasteBook")';
+        var notificationUrl = '@Url.Action("NotificationPartialView", "PasteBook")';
+        var notificationCounturl = '@Url.Action("CountNotification", "PasteBook")'
+
+        var ID = @Session["ID"];
     </script>
     <script>
 
 
-        //$(document).on('click', '.btnAcceptRequest', function () {
-        //    var data = {
-        //        "friendID": this.value,
-        //        "Receiver_ID": $('#posterID').attr('value')
-        //        //"Liked_By": ID,
-        //        //"ID" : null
-        //    }
-
-        //    $.ajax({
-        //        url: likePostUrl,
-        //        data: data,
-        //        type: 'POST',
-        //        success: function (data) {
-        //            LikeSuccess(data);
-        //        },
-        //        error: function () {
-        //            alert('Something went wrong')
-        //        }
-        //    })
-        //    function LikeSuccess(data) {
-        //        $(document).trigger('ready');
-        //        $("#homePartial").load(homePageUrl);
-        //    }
-        //})
-
-
-
-
-
-        @*var url = '@Url.Action("NotificationPartialView", "PasteBook")'
-        $(function () {
-            setInterval(function () { $('#NotiPartialView').load(url); }, 2000);
-        });*@
-
-
-
-        var LogoutUrl = '@Url.Action("Logout","Account")';
-        $('#btnLogout').on('click', function () {
+        $(document).on('click', '#notification', function () {
+            var data = {
+                "userID" : ID,
+                "type" : "C"
+            }
             $.ajax({
-                url: LogoutUrl,
-                success: function () {
-                    $(location).attr('href', IndexUrl);
+                url: seenNotiUrl,
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                   SeenSuccess(data);
                 },
                 error: function () {
-                    alert("Something went wrong");
+                    alert('Something went wrong')
                 }
+            })
+            function SeenSuccess(data) {
+                //if (data.result == 1) {
+                //    $(document).trigger('ready');
+                //    $("#NotiPartialView").load(url);
+                //    $("#eto").toggleClass('visible');
+                //}
+            }
+        })
+
+        $(document).on('click', '#Friendnotification', function () {
+            var data = {
+                "userID" : ID,
+                "type" : "F"
+            }
+            $.ajax({
+                url: seenNotiUrl,
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    SeenFSuccess(data);
+                },
+                error: function () {
+                    alert('Something went wrong')
+                }
+            })
+            function SeenFSuccess(data) {
+                //if (data.result == 1) {
+                //    $(document).trigger('ready');
+                //    $("#NotiPartialView").load(url);
+
+                //}
+                //$("#NotiPartialView").load(url);
+            }
+        })
+        var ID = @Session["ID"];
+        if (ID != null) 
+        {
+            setInterval( GetCount
+              , 1000)
+
+            setInterval( GetFriendCount
+              , 1000)
+        }
+    
+
+        function GetCount(){
+            var data = {
+                "ID" : ID,
+                "type" : "C"
+            }
+            $.ajax({
+                url: notificationCounturl,
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    $('#notifBadge').text(data.result);
+                },
+                error: function () {
+                    //alert('Something went wrong')
+                }
+            })
+        }
+
+        function GetFriendCount(){
+            var data = {
+                "ID" : ID,
+                "type" : "F"
+            }
+            $.ajax({
+                url: notificationCounturl,
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    $('#friendBadge').text(data.result);
+                },
+                error: function () {
+                    //alert('Something went wrong')
+                }
+            })
+        }
+
+
+        $(document).on('click', '#Friendnotification', function () {
+            $("#FriendNotiPartialView").load(friendNotiUrl);
+        })
+
+        $(document).on('click', '#notification', function () {
+            $("#eto").load('@Url.Action("NotificationPartialView", "PasteBook")');
+        })
+
+
+
+            var LogoutUrl = '@Url.Action("Logout","Account")';
+            $('#btnLogout').on('click', function () {
+                $.ajax({
+                    url: LogoutUrl,
+                    success: function () {
+                        $(location).attr('href', IndexUrl);
+                    },
+                    error: function () {
+                        alert("Something went wrong");
+                    }
+                });
             });
-        });
+
+
     </script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
