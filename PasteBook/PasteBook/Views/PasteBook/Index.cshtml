@@ -54,15 +54,12 @@
         $(function () {
             setInterval(function ()
             {
-                if (Session["ID"] != null)  {
+                //if (Session["ID"] != null)  {
                     $('#homePartial').load(homePageUrl);
-                }
+                //}
             }
                 , 60000);
         });
-
-
-
         $(document).on('mouseover', '.likeList', function () {
             $('[data-toggle="popover"]').popover();
         })

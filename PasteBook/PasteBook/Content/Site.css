@@ -145,9 +145,24 @@ textarea#textArea, textarea#commentArea {
     width: 100%;
 }
 
+button.CommentButton {
+    margin-top: 13px;
+    margin-left: -18px;
+}
+
 button#post {
     margin-top: 7px;
     width: 94px;
+}
+
+div#postWell {
+    height: 230px;
+}
+
+div#postContaner {
+    margin-left: 19px;
+    margin-top: 5px;
+    margin-right: 18px;
 }
 
 input#friend, input#requested, input#addFriend {
@@ -161,23 +176,28 @@ img#previewImage {
     width: 200px;
     height: 200px;
 }
-
+div#profileFriendHeader {
+    font-weight: bold;
+    font-size: 25px;
+}
 div.aboutMeContent { 
 
         word-wrap: break-word;        
     overflow-wrap: break-word;     
+        margin-top: -15px;
+    text-indent: 18px;
   
 }
 
-div.commentList,div.postField {
+div.commentList,p.postField {
            word-wrap: break-word;        
     overflow-wrap: break-word;     
 }
 
 a#editButton {
     font-size: 25px;
-    margin-top: -104px;
-    margin-left: 257px;
+    margin-top: -75px;
+    margin-left: 282px;
 }
 /*********NEWS FEED*************/
 
@@ -185,12 +205,12 @@ a#editButton {
     margin-top: 30px;
     width: 100%;
         background-color: white;
-    border-color: black;
+    border-color: #2C3D7E;
 }
 
 div.well{
         background-color: white;
-    border-color: black;    
+    border-color: #2c3e50;    
 }
 
 img#imgOwner {
@@ -212,7 +232,7 @@ textarea#textAreaPost {
 }
 
 #ownerName {
-    margin-left: 347px;
+    margin-left: 295px;
     margin-top: 5px;
     margin-bottom: 13px;
     font-size: 26px;
@@ -223,9 +243,65 @@ div#PostContainer {
 
 p.postField {
         font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
+    text-indent:5px;
     margin-left: 20px;
+    /*border-left: 6px solid #34495e;
+    background-color: #ECECEC;*/
+    /*border-radius:3px;*/
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-right:15px;
+
 }
+p#commentName {
+       font-weight: bold;
+    margin-top: 8px;
+    margin-left: 11px;
+    margin-bottom: 2px;
+}
+
+div.commentList {
+margin-left: 33px;
+}
+
+p#commentDate {
+    font-size: 13px;
+    margin-top: -3px;
+    margin-left: 9px;
+    margin-bottom: 4px;
+}
+button.likeList,button.likeButton,button.unlikeButton {
+    margin-bottom: 10px;
+        background-color: transparent;
+    border-color: transparent;
+    color: #34495e;
+    font-size: 16px;
+}
+/*button.likeList:hover,button.likeButton:hover,button.unlikeButton:hover,button.unlikeButton:target,button.likeButton:active,button.likeButton:after {
+     background-color: transparent;
+    border-color: transparent;
+    color: #1abc9c;
+}*/
+   
+button.likeButton, button.unlikeButton,button.likeButton:hover,button.unlikeButton:hover {
+    margin-left: -10px;
+}
+
+hr {
+    border-top: 2px solid #2c3e50;
+        margin-bottom: 13px;
+}
+a.postOwner {
+    color: #34495e !important;
+}
+div.posterName {
+    font-size: 18px;
+}
+
+div.postDate {
+    font-size: 13px;
+    margin-top: -6px;}
 /*******Setting*******/
 ul#navigationSetting {
     margin-top: 25px;
@@ -233,4 +309,38 @@ ul#navigationSetting {
 
 div#myTabContent {
     width: 70%;
+}
+/********FRIENDLIST*/
+label.FriendList {
+margin-top: 33px;
+    font-size: 33px;
+    margin-bottom: 10px;
+}
+/****Login*/
+
+div#panelLogin {
+    width: 48%;
+    margin-top: 80px;
+    margin-left: 299px;
+    margin-bottom: 97px;
+}
+
+.panel-success > .panel-heading {
+    color: white;
+    background-color: #34495e;
+    border-color: #34495e;
+}
+
+.panel-success {
+    border-color: #34495e;
+}
+div#loginHeading {
+    font-size: 21px;
+    text-align: center;
+}
+
+div#loginForm {
+    margin-left: 34px;
+    margin-top: 16px;
+
 }

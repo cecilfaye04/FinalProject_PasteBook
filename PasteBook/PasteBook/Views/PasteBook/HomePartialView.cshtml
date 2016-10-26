@@ -1,68 +1,86 @@
 ﻿@model ProfileViewModel
 
- @foreach (var item in Model.PostList)
+@foreach (var item in Model.PostList)
 {
     <div class="well" id="newsFeedPost">
-        
-        <div class="pull-right"> @item.CREATED_DATE.ToString("MMMM dd, yyyy hh:mm tt") </div>
+
+        <a href="@Url.Action("Post","PasteBook",new { PostID = item.ID})" id="btnSettings" class="pull-right"><span class="viewPost glyphicon glyphicon-eye-open" aria-hidden="true"></span> View Post</a>
         @Html.Hidden("postID", item.ID, new { id = "postID" })
         @Html.Hidden("PosterID", item.POSTER_ID, new { id = "posterID" })
         @if (item.POSTER_ID == item.PROFILE_OWNER_ID)
         {
-            <div>
-                @Html.Label(@item.PB_USER.FIRST_NAME) @Html.Label(@item.PB_USER.LAST_NAME)
+            <div class="posterName">
+                <a href="@Url.Action("Profile","PasteBook", new { username = @item.PB_USER.USER_NAME })" class="postOwner">@Html.Label(@item.PB_USER.FIRST_NAME) @Html.Label(@item.PB_USER.LAST_NAME)</a>
             </div>
         }
         else
         {
-            <div>
-                @Html.Label(@item.PB_USER.FIRST_NAME) @Html.Label(@item.PB_USER.LAST_NAME)> @Html.Label(@item.PB_USER1.FIRST_NAME) @Html.Label(@item.PB_USER1.LAST_NAME)
+            <div class="posterName">
+                <a href="@Url.Action("Profile","PasteBook", new { username = @item.PB_USER.USER_NAME })" class="postOwner">@Html.Label(@item.PB_USER.FIRST_NAME) @Html.Label(@item.PB_USER.LAST_NAME)</a> ><a href="@Url.Action("Profile","PasteBook", new { username = @item.PB_USER1.USER_NAME })" class="postOwner">@Html.Label(@item.PB_USER1.FIRST_NAME) @Html.Label(@item.PB_USER1.LAST_NAME)</a>
             </div>
         }
+        <div class="postDate"> @item.CREATED_DATE.ToString("MMMM dd, yyyy hh:mm tt") </div>
         <p class="postField">
             @item.CONTENT
         </p>
-
+        <hr />
         <div id="field">
-  
+            @if (item.PB_LIKE.Count > 0)
+            {
+                <a href="#modal" class="likeList btn btn-link" data-toggle="modal" data-target=".@item.ID">@item.PB_LIKE.Count()<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+            }
 
-
-            <button data-toggle="popover" title="Liked By:" data-trigger="hover" class="likeList btn-sm btn-default" data-content="@foreach (var like in item.PB_LIKE)
-	{
-		@like.PB_USER.FIRST_NAME @like.PB_USER.LAST_NAME @Html.DisplayName(", ")
-	}">
-                @item.PB_LIKE.Count()
-                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-            </button>
 
             @if (item.PB_LIKE.Any(x => x.LIKED_BY == (int)Session["ID"]))
             {
-                <button class="unlikeButton btn-sm btn-success" value=@item.PB_LIKE.Where(x=>x.LIKED_BY == (int)Session["ID"]).FirstOrDefault().ID><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>Unlike</button>
+                <button class="unlikeButton" value=@item.PB_LIKE.Where(x=>x.LIKED_BY == (int)Session["ID"]).FirstOrDefault().ID><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>Unlike</button>
             }
             else
             {
-                <button class="likeButton btn-sm btn-primary" value=@item.ID><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</button>
+                <button class="likeButton" value=@item.ID><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Like</button>
             }
 
-            <button class="CommentButton btn-sm btn-primary" value=@item.ID><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Comment</button><br />
-          
-            <div id="commentField">
+            <div class="row">
+                <div id="commentField" class="col-md-10">
 
-                @Html.TextArea("Message", new { rows = 2, columns = 40, @class = "textAreaComment form-control", id = "commentArea", value = @item.ID, placeholder = "Write a comment.." })
+                    @Html.TextArea("Message", new { rows = 2, columns = 40, @class = "textAreaComment form-control", id = "commentArea", value = @item.ID, placeholder = "Write a comment.." })
+                </div>
+                <div class="col-md-2">
+                    <button class="CommentButton btn-sm btn-primary" value=@item.ID><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Comment</button><br />
+                </div>
             </div>
+
+
             @foreach (var comment in item.PB_COMMENT)
             {
                 <div>
-                    <div>
-                        @Html.DisplayName(@comment.PB_USER.FIRST_NAME) @Html.DisplayName(@comment.PB_USER.LAST_NAME)
-                    </div>
-                    <div class="commentList">
-                        @Html.DisplayName(@comment.CONTENT)
-                    </div>
+                    <p id="commentName"> @Html.DisplayName(@comment.PB_USER.FIRST_NAME) @Html.DisplayName(@comment.PB_USER.LAST_NAME) </p>
+                    <p id="commentDate">@comment.DATE_CREATED.ToString("MMMM dd, yyyy hh:mm tt")</p>
+                    <div class="commentList"> @Html.DisplayName(@comment.CONTENT)</div>
                 </div>
             }
         </div>
     </div>
+
+
+
+<div class="modal @item.ID">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Like</h4>
+            </div>
+            <div class="modal-body">
+                @foreach (var like in item.PB_LIKE)
+                {
+                    <p> @like.PB_USER.FIRST_NAME @like.PB_USER.LAST_NAME </p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 }
-
-

@@ -1,7 +1,7 @@
 ﻿@model ProfileViewModel
 
-@using (Html.BeginForm("Profile", "PasteBook", FormMethod.Post))
-            {
+<span>@Html.Label("Friend list", new { @class = "FriendList" }) @Html.Label("("+@Model.FriendList.Where(x => x.REQUEST == "Y").Count().ToString()+")",new { @class="FriendList"})</span>
+  
     <div id="Friend">
         @foreach (var item in Model.FriendList)
         {
@@ -59,7 +59,7 @@
                 </div>
             }
         }
-        <div class="well">
+        @*<div class="well">
             Pending na inadd mo
             @foreach (var item in Model.FriendList)
             {
@@ -103,7 +103,6 @@
                     @Html.ActionLink("Profile", "Profile", "PasteBook", new { username = @item.PB_USER1.USER_NAME }, new { @class = "btn btn-primary" })
                 }
             }
-        </div>
-
+        </div>*@
     </div>
-}
+

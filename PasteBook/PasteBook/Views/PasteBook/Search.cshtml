@@ -1,12 +1,15 @@
 ﻿@model UserViewModel
 
-@using (Html.BeginForm("Profile", "PasteBook", FormMethod.Post))
-            {
+@if (Model.UserList.Count() <= 0)
+{
+    <span>@Html.Label("No Result Found", new { @class = "FriendList" })</span>
+}
+else
+{
+<span>@Html.Label("Search Result", new { @class = "FriendList" }) @Html.Label("(" + @Model.UserList.Count().ToString() + ")", new { @class = "FriendList" })</span>
+
     <div id="Friend">
-        @if (Model.UserList == null)
-        {
-            @Html.DisplayName("No match!")
-        }
+      
         @foreach (var item in Model.UserList)
         {
                 <div class="well" id="friendList">
