@@ -14,6 +14,7 @@ namespace PasteBook
         UserBLL userManager = new UserBLL();
 
         [HttpGet]
+        [Route("Account/Register")]
         public ActionResult Index()
         {
             ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY");
@@ -21,6 +22,7 @@ namespace PasteBook
         }
 
         [HttpPost]
+        [Route("Account/Register")]
         public ActionResult Index(UserViewModel model,string confirmPassword)
         {
 
@@ -41,10 +43,10 @@ namespace PasteBook
                 accountManager.AddUserAccount(model.UserEF);
                 Session["UserName"] = model.UserEF.USER_NAME;
                 Session["ID"] = model.UserEF.ID;
-                return View("LoginPage");
+                return RedirectToAction("Index", "Pastebook");
             }
             ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY");
-            return View("Index", model);
+            return View(model);
         }
 
         [HttpGet]
@@ -163,7 +165,6 @@ namespace PasteBook
                 return View(user);
             }
         }
-
 
         public JsonResult Logout()
         {

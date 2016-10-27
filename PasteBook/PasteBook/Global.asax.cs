@@ -31,7 +31,8 @@ namespace PasteBook
                     Response.Redirect("~/Error/Error404");
                 }
 
-                else {
+                else
+                {
                     Response.Redirect("~/Error/GlobalError");
                 }
             }

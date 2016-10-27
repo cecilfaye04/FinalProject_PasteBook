@@ -21,12 +21,18 @@ namespace PasteBook.Controllers
 
 
         [HttpGet]
-        [Route("Pastebook.com")]
+        [Route("")]
         public ActionResult Index()
         {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("LoginPage", "Account");
+            }
+            else { 
             ProfileViewModel model = new ProfileViewModel();
             model.UserModel = userManager.GetUserInfo((string)Session["UserName"]);
             return View(model);
+            }
         }
 
         public ActionResult HomePartialView(int ID,string page)
@@ -43,9 +49,13 @@ namespace PasteBook.Controllers
           
             return PartialView("HomePartialView", model);
         }
-        [Route("Pastebook.com/Friend")]
+        [Route("Friend")]
         public ActionResult Friend()
         {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("LoginPage", "Account");
+            }
             ProfileViewModel model = new ProfileViewModel();
             model.FriendList = friendManager.RetrieveFriendList((int)Session["ID"]);
             return View(model);
@@ -53,23 +63,35 @@ namespace PasteBook.Controllers
 
         public ActionResult Search(string Search)
         {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("LoginPage", "Account");
+            }
             UserViewModel model = new UserViewModel();
             model.UserList = userManager.SearchUser(Search);
             return View(model);
         }
 
-        [Route("Pastebook.com/{username:minlength(1)}")]
+        [Route("{username:minlength(1)}")]
         public new ActionResult Profile(string username)
         {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("LoginPage", "Account");
+            }
             ProfileViewModel model = new ProfileViewModel();
             model.UserModel = userManager.GetUserInfo(username);
             model.FriendModel = friendManager.RetrieveFriend(model.UserModel.ID, (int)Session["ID"]);
             return View(model);
         }
 
-        [Route("Pastebook.com/post/{postID}")]
+        [Route("post/{postID}")]
         public ActionResult Post(int PostID)
         {
+            if (Session["ID"] == null)
+            {
+               return RedirectToAction("LoginPage", "Account");
+            }
             PB_POST post = new PB_POST();
             post = postManager.RetrieveSpecificPost(PostID);
             return View(post);
