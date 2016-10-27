@@ -33,32 +33,41 @@ namespace DataAccess
 
         [Required]
         [DisplayName("Username")]
+        [MaxLength(50,ErrorMessage = "The Username is too long, maximum length is 50.")]
         public string USER_NAME { get; set; }
 
         [Required]
         [DisplayName("Password")]
+        [MaxLength(50, ErrorMessage = "The Password is too long, maximum length is 50.")]
         [DataType(DataType.Password)]
         public string PASSWORD { get; set; }
 
         public string SALT { get; set; }
 
         [Required]
+        [MaxLength(50, ErrorMessage = "The Firstname is too long, maximum length is 50.")]
         [DisplayName("Firstname")]
+        [RegularExpression("^([A-Za-z0-9-' ]+$)?", ErrorMessage = "Invalid format, firstname can only contain alphanumeric characters,hyphen and apostrophe.")]
         public string FIRST_NAME { get; set; }
 
         [Required]
+        [MaxLength(50, ErrorMessage = "The Lastname is too long, maximum length is 50.")]
         [DisplayName("Lastname")]
+        [RegularExpression("^([A-Za-z0-9-' ]+$)?", ErrorMessage = "Invalid format!!!!!, Lastname can only contain alphanumeric characters,hyphen and apostrophe.")]
         public string LAST_NAME { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode =true)]
+        [DisplayName("Birthday")]
         public System.DateTime BIRTHDAY { get; set; }
 
         [DisplayName("Country")]
         public Nullable<int> COUNTRY_ID { get; set; }
 
         [DisplayName("Mobile No")]
+        [MaxLength(50, ErrorMessage = "The Mobile No is too long, maximum length is 50.")]
         [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string MOBILE_NO { get; set; }
 
         [Required]
@@ -70,10 +79,12 @@ namespace DataAccess
         public System.DateTime DATE_CREATED { get; set; }
 
         [DisplayName("About Me")]
+        [MaxLength(2000, ErrorMessage = "The About Me is too long, maximum length is 50.")]
         public string ABOUT_ME { get; set; }
 
         [Required]
         [DisplayName("Email Address")]
+        [MaxLength(50, ErrorMessage = "The Email Address is too long, maximum length is 50.")]
         [EmailAddress]
         public string EMAIL_ADDRESS { get; set; }
     

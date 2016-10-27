@@ -15,6 +15,6 @@ C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\
 C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.xml
 C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\PasteBookEnitity.csprojResolveAssemblyReference.cache
 C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\Bootcamp\Desktop\FinalProject_PasteBook\PasteBook\DataAccess\obj\Debug\PasteBookEnitity.csprojResolveAssemblyReference.cache

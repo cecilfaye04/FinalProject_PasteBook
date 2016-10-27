@@ -46,62 +46,61 @@ namespace DataAccessLayer
         //    return returnValue;
         //}
 
-        public PB_USER GetUser(string email)
-        {
-            PB_USER result = new PB_USER();
-            try
-            {
-                using (var context = new PASTEBOOKEntities())
-                {
-                    return result = context.PB_USER.FirstOrDefault(x => x.EMAIL_ADDRESS.ToLower() == email.ToLower());
-                }
-            }
-            catch (Exception ex)
-            {
-                errorList.Add(ex);
-            }
-            return result;
-        }
+        //public PB_USER GetUser(string email)
+        //{
+        //    PB_USER result = new PB_USER();
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities())
+        //        {
+        //            return result = context.PB_USER.FirstOrDefault(x => x.EMAIL_ADDRESS.ToLower() == email.ToLower());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorList.Add(ex);
+        //    }
+        //    return result;
+        //}
 
-        public bool CheckIfUsernameExist(string username)
-        {
-            try
-            {
-                using (var context = new PASTEBOOKEntities())
-                {
-                    var result = context.PB_USER.FirstOrDefault(x => x.USER_NAME.ToLower() == username.ToLower());
-                    if (result != null)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorList.Add(ex);
-            }
-            return false;
-        }
+        //public bool CheckIfUsernameExist(string username)
+        //{
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities())
+        //        {
+        //            var result = context.PB_USER.FirstOrDefault(x => x.USER_NAME.ToLower() == username.ToLower());
+        //            if (result != null)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorList.Add(ex);
+        //    }
+        //    return false;
+        //}
 
-        public bool CheckIfEmailExist(string email)
-        {
-            try
-            {
-                using (var context = new PASTEBOOKEntities())
-                {
-                    var result = context.PB_USER.FirstOrDefault(x => x.EMAIL_ADDRESS.ToLower() == email.ToLower());
-                    if (result != null)
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                errorList.Add(ex);
-            }
-            return false;
-        }
-      
+        //public bool CheckIfEmailExist(string email)
+        //{
+        //    try
+        //    {
+        //        using (var context = new PASTEBOOKEntities())
+        //        {
+        //            var result = context.PB_USER.FirstOrDefault(x => x.EMAIL_ADDRESS.ToLower() == email.ToLower());
+        //            if (result != null)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        errorList.Add(ex);
+        //    }
+        //    return false;
+        //}
     }
 }

@@ -47,7 +47,7 @@
                                     <div class="btn-group">
                                         <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="notification"><span class="glyphicon glyphicon-globe"><span class="badge" id="notifBadge">@*@Model.NotificationList.Where(x => x.SEEN == "N" && x.NOTIF_TYPE != "F").Count()*@</span></span></a>
                                      
-                                            <ul class="dropdown-menu scrollable-menu" role="menu" id="eto">
+                                            <ul class="dropdown-menu scrollable-menu" role="menu" id="notiPartial">
                                                 @{
                                                     Html.RenderAction("NotificationPartialView", "PasteBook");
                                                 }
@@ -57,9 +57,7 @@
                                 <li>
                                         <div class="btn-group">
                                             <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="Friendnotification"><span class="glyphicon glyphicon-user"><span class="glyphicon glyphicon-user" id="friendNotif"></span><span class="badge" id="friendBadge">@*@Model.NotificationList.Where(x => x.SEEN == "N" && x.NOTIF_TYPE == "F").Count()*@</span></span></a>
-                                        
-                                                <ul class="dropdown-menu scrollable-menu" role="menu">
-
+                                                <ul class="dropdown-menu scrollable-menu" role="menu" id="friendPartial">
                                                     @{
                                                         Html.RenderAction("FriendNotificationPartialView", "PasteBook");
                                                     }
@@ -113,6 +111,7 @@
    
     <script>
         var acceptFriendUrl = '@Url.Action("AcceptFriend", "PasteBook")';
+        var rejectFriendUrl = '@Url.Action("RejectFriend", "PasteBook")';
         var seenNotiUrl = '@Url.Action("SeenNotification", "PasteBook")';
         var friendNotiUrl = '@Url.Action("FriendNotificationPartialView", "PasteBook")';
         var notificationUrl = '@Url.Action("NotificationPartialView", "PasteBook")';
@@ -174,7 +173,7 @@
             }
         })
         var ID = @Session["ID"];
-        if (ID != null) 
+        if (ID != null)
         {
             setInterval( GetCount
               , 1000)
@@ -182,7 +181,7 @@
             setInterval( GetFriendCount
               , 1000)
         }
-    
+
 
         function GetCount(){
             var data = {
@@ -222,12 +221,57 @@
 
 
         $(document).on('click', '#Friendnotification', function () {
-            $("#FriendNotiPartialView").load(friendNotiUrl);
+            $("#friendPartial").load(friendNotiUrl);
         })
 
         $(document).on('click', '#notification', function () {
-            $("#eto").load('@Url.Action("NotificationPartialView", "PasteBook")');
+            $("#notiPartial").load(notificationUrl);
         })
+
+
+        $(document).on('click', '.btnAcceptRequest', function () {
+            var data = {
+                "friendID": this.value
+            }
+
+            $.ajax({
+                url: acceptFriendUrl,
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    AcceptFriendSuccess (data);
+                },
+                error: function () {
+                    alert('Something went wrong')
+                }
+            })
+        });
+
+        function AcceptFriendSuccess(data) {
+            $("#friendPartial").load(friendNotiUrl);
+        }
+
+        $(document).on('click', '.notNow', function () {
+            var data = {
+                "friendID": this.value
+            }
+
+            $.ajax({
+                url: rejectFriendUrl,
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    RejectFriendSuccess (data);
+                },
+                error: function () {
+                    alert('Something went wrong')
+                }
+            })
+        });
+
+        function RejectFriendSuccess(data) {
+            $("#friendPartial").load(friendNotiUrl);
+        }
 
 
 
@@ -243,6 +287,8 @@
                     }
                 });
             });
+
+
 
 
     </script>

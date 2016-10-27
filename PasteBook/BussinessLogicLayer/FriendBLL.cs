@@ -67,7 +67,9 @@ namespace BussinessLogicLayer
 
         public PB_FRIENDS RetrieveFriend(int friendId,int userID)
         {
-           return friendDAL.GetSpecific((x => x.FRIEND_ID == friendId && x.USER_ID == userID || x.USER_ID == friendId && x.FRIEND_ID == userID));
+            PB_FRIENDS friend = new PB_FRIENDS();
+            friend = friendDAL.GetSpecific((x => x.FRIEND_ID == friendId && x.USER_ID == userID || x.USER_ID == friendId && x.FRIEND_ID == userID));
+            return friend;
         }
 
     }

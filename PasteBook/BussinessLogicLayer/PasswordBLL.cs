@@ -20,28 +20,6 @@ namespace BussinessLogicLayer
         }
     }
 
-    //public class MockUserRepository
-    //{
-       
-    //    public PB_USER GetUser(string userName)
-    //    {
-    //        var results = new PB_USER();
-    //        try
-    //        {
-    //            using (var context = new PASTEBOOKEntities())
-    //            {
-    //                results = context.PB_USER.Where(x => x.USER_NAME == userName).SingleOrDefault();
-
-    //                return results;
-    //            }
-    //        }
-    //        catch (Exception)
-    //        {
-    //        }
-    //        return results;
-    //    }
-    //}
-
     public class PasswordBLL
     {
         HashComputer m_hashComputer = new HashComputer();

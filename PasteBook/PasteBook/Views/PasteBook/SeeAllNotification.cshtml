@@ -1,0 +1,32 @@
+﻿@model UserActionViewModel
+@Html.Label("Your Notification", new { id = "notifHeader"})
+
+    @if (Model.NotificationList != null)
+    {
+      
+        foreach (var item in Model.NotificationList)
+        {
+            <div class="notifItem">
+                @if (item.NOTIF_TYPE == "L")
+                {
+                <span class="glyphicon glyphicon-thumbs-up"></span><a href="@Url.Action("Post", "PasteBook",new { PostID = @item.POST_ID})">@Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME + " liked your post.")</a>
+                }
+                else if (item.NOTIF_TYPE == "C")
+                {
+                <span class="glyphicon glyphicon-comment"></span><a href="@Url.Action("Post", "PasteBook",new { PostID = @item.POST_ID})"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME + " has commented on your post.") </a>
+                }
+                else if (item.NOTIF_TYPE == "F")
+                {
+                <span class="glyphicon glyphicon-user"></span> <a href="@Url.Action("Profile", "PasteBook",new { username = @item.PB_USER1.USER_NAME})"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME + " sent you a friend request.") </a>
+                }
+            </div>
+
+        }
+    }
+    else
+    {
+        < a href = "#" > @Html.DisplayName("No recent Notification") </ a >
+         @Html.DisplayName("No recent Notification")
+        }
+
+

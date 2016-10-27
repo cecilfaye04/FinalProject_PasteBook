@@ -23,8 +23,7 @@ namespace BussinessLogicLayer
 
         public PB_USER GetUser(string email)
         {
-            //userManager.GetSpecific(x => x.EMAIL_ADDRESS.ToLower() == email);
-            return accountManager.GetUser(email); 
+            return userManager.GetSpecific(x => x.EMAIL_ADDRESS.ToLower() == email);
         }
 
         public int AddUserAccount(PB_USER user)
@@ -43,20 +42,28 @@ namespace BussinessLogicLayer
         {
             bool result = false;
             PasswordBLL pwManager = new PasswordBLL();
-            var userResult = accountManager.GetUser(user.EMAIL_ADDRESS);
+            var userResult = userManager.GetSpecific(x=>x.EMAIL_ADDRESS == user.EMAIL_ADDRESS);
             return result = pwManager.IsPasswordMatch(user.PASSWORD, userResult.SALT, userResult.PASSWORD);
         }
 
         public bool CheckIfUserNameExists(string username)
         {
-            bool result = false;
-            return result = accountManager.CheckIfUsernameExist(username);
+            var user = userManager.GetSpecific(x => x.USER_NAME == username);
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool CheckIfEmailExists(string email)
         {
-            bool result = false;
-            return result = accountManager.CheckIfEmailExist(email);
+            var user = userManager.GetSpecific(x => x.EMAIL_ADDRESS == email);
+            if (user!=null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool CheckIfPasswordMatch(string password,int userID)

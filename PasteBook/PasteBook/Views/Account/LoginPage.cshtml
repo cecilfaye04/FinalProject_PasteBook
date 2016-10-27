@@ -6,6 +6,13 @@
     <div class="panel panel-success" id="panelLogin">
         <div class="panel-heading" id="loginHeading">PasteBook Login</div>
         <div class="panel-body">
+            @if (@ViewBag.LoginError == true)
+            {
+                <div class="alert alert-dismissible alert-danger" id="loginAlert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Invalid Email Address or Password</strong>
+                </div>
+            }
             <div class="form-horizontal" id="loginForm">
                 <div class="form-group">
                     @Html.LabelFor(model => model.UserEF.EMAIL_ADDRESS, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -33,4 +40,13 @@
     </div>
 }
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+   <script>
+       $("#loginAlert").fadeTo(3000, 900).slideUp(900, function () {
+           $("#loginAlert").slideUp(900);
+        });
+</script>
+}
 

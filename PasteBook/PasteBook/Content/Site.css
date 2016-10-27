@@ -68,10 +68,19 @@ input#inputDefault {
 
 /***********************************************************/
 
-#titleBar {
-    margin-top: 60px;
+div#titleBar {
+    margin-top: 40px;
     text-align: center;
     font-size: 40px;
+}
+
+div.registerPanel {
+    width: 65%;
+        margin-left: 181px;
+}
+
+h3.registerTitle {
+    font-size: 25px;
 }
 
 h3.panel-title {
@@ -86,10 +95,36 @@ h3.panel-title {
     margin-top: 8px;
 }
 
+label.requiredField,label.requiredEmailField {
+    margin-top: 6px;
+    margin-left: -605px;
+    color: red;
+    font-size: 19px;
+}
+label#labalConfirmPass {
+    margin-left: -54px;
+}
+label#legend {
+color:red;
+   font-size: 19px;
+}
+span#legendSpan {
+    margin-left: -128px;
+}
+
+
+label.requiredEmailField {
+    margin-left: -581px;
+}
 .navbar {
     height: 0px;
 }
-
+ input.registerBtn {
+margin-left:-10px;
+}
+label.labelEmail {
+ margin-left: -53px;
+}
 .scrollable-menu {
     height: auto;
     max-height: 250px;
@@ -134,6 +169,12 @@ div#test {
 img#ownerProfilePicture {
     width: 200px;
     height: 200px;
+}
+
+div#strangersView {
+        margin-top: 48px;
+    font-size: 22px;
+    margin-left: 118px;
 }
 
 #imageProfile {
@@ -343,4 +384,52 @@ div#loginForm {
     margin-left: 34px;
     margin-top: 16px;
 
+}
+/*****NOTIFPAGE*****/
+label#notifHeader{
+    margin-top: 30px;
+    font-size: 27px;
+    }
+div.notifItem {
+        font-size: 16px;
+    margin-left: 71px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+/****SETTINGS******/
+
+div.panelSetting {
+        margin-top: 40px;
+    width: 64%;
+    margin-left: 190px;
+    margin-bottom:50px;
+}
+
+h3.settingTitle {
+    font-size: 24px;
+    font-weight:bolder;
+}
+
+div.settingInput {
+    margin-top: -9px;
+    margin-bottom: 18px;
+}
+input.saveSetting{
+    margin-left: -35px;
+}
+div.settingHeading.panel-heading{
+    color: #2c3e50;
+    background-color: #ffffff;
+    border-color: #2c3e50;
+    font-weight:bolder;
+}
+
+label.settingLabel {
+    margin-right: -16px;
+    margin-left: -33px;
+}
+
+input#MOBILE_NO {
+    margin-left: -48px;
 }

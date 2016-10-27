@@ -226,6 +226,7 @@
     <Content Include="Views\PasteBook\FriendNotificationPartialView.cshtml" />
     <Content Include="Views\Account\SecuritySetting.cshtml" />
     <Content Include="Views\Account\AccountSetting.cshtml" />
+    <Content Include="Views\PasteBook\SeeAllNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

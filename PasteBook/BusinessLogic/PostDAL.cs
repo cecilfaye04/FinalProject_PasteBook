@@ -23,9 +23,9 @@ namespace DataAccessLayer
                           .Include("PB_USER1")
                           .Include("PB_LIKE.PB_USER")
                           .Include("PB_COMMENT")
-                          .Where(x => x.PROFILE_OWNER_ID == id )
-                          .Take(100)
+                          .Where(x => x.PROFILE_OWNER_ID == id)
                           .OrderByDescending(x => x.CREATED_DATE)
+                          .Take(100)
                           .ToList();
                 }
             }
@@ -48,7 +48,8 @@ namespace DataAccessLayer
                           .Include("PB_USER1")
                           .Include("PB_LIKE.PB_USER")
                           .Include("PB_COMMENT")
-                          .Where(x=>x.ID == PostID).SingleOrDefault();
+                          .Include("PB_COMMENT.PB_USER")
+                          .Where(x => x.ID == PostID).SingleOrDefault();
                 }
             }
             catch (Exception ex)
@@ -73,8 +74,7 @@ namespace DataAccessLayer
                           .Include("PB_USER1")
                           .Include("PB_LIKE.PB_USER")
                           .Include("PB_COMMENT")
-                          .Where(x=> user.Contains(x.POSTER_ID) || friend.Contains(x.POSTER_ID) || x.POSTER_ID == ownerID)
-                          .Take(100)
+                          .Where(x => user.Contains(x.POSTER_ID) || friend.Contains(x.POSTER_ID) || x.POSTER_ID == ownerID)
                           .OrderByDescending(x => x.CREATED_DATE)
                           .ToList();
                 }
@@ -130,7 +130,8 @@ namespace DataAccessLayer
                 using (var context = new PASTEBOOKEntities())
                 {
                     context.PB_COMMENT.Add(comment);
-                    PB_NOTIFICATION notid = new PB_NOTIFICATION() {
+                    PB_NOTIFICATION notid = new PB_NOTIFICATION()
+                    {
                         NOTIF_TYPE = "C",
                         POST_ID = comment.POST_ID,
                         SEEN = "N",
@@ -161,12 +162,12 @@ namespace DataAccessLayer
 
                     PB_NOTIFICATION notif = new PB_NOTIFICATION();
                     notif.SENDER_ID = like.LIKED_BY;
-                        notif.CREATED_DATE = DateTime.Now;
-                         notif.NOTIF_TYPE = "L";
-                         notif.SEEN = "N";
-                         notif.POST_ID = like.POST_ID;
-                         notif.RECEIVER_ID = ReceiverID;
-                 
+                    notif.CREATED_DATE = DateTime.Now;
+                    notif.NOTIF_TYPE = "L";
+                    notif.SEEN = "N";
+                    notif.POST_ID = like.POST_ID;
+                    notif.RECEIVER_ID = ReceiverID;
+
                     context.PB_NOTIFICATION.Add(notif);
                     returnValue = context.SaveChanges();
 
@@ -211,7 +212,7 @@ namespace DataAccessLayer
                           .Include("PB_COMMENT")
                           .Include("PB_POST")
                           .Where(x => x.RECEIVER_ID == id)
-                          .OrderByDescending(x=>x.CREATED_DATE)
+                          .OrderByDescending(x => x.CREATED_DATE)
                           .ToList();
                 }
             }
@@ -248,7 +249,7 @@ namespace DataAccessLayer
         //    }
         //    return returnValue;
         //}
-     
+
 
         //public List<PB_COMMENT> RetrieveComment()
         //{

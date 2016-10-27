@@ -21,7 +21,7 @@ namespace PasteBook
         }
 
         [HttpPost]
-        public ActionResult Index(UserViewModel model)
+        public ActionResult Index(UserViewModel model,string confirmPassword)
         {
 
             if (accountManager.CheckIfUserNameExists(model.UserEF.USER_NAME) == true)
@@ -31,6 +31,10 @@ namespace PasteBook
             if (accountManager.CheckIfEmailExists(model.UserEF.EMAIL_ADDRESS) == true)
             {
                 ModelState.AddModelError("UserEF.EMAIL_ADDRESS", "Email address already exists. Please enter a different Email Address.");
+            }
+            if (model.UserEF.PASSWORD != confirmPassword)
+            {
+                ModelState.AddModelError("UserEF.PASSWORD", "Your password do not match.");
             }
             if (ModelState.IsValid)
             {
@@ -46,6 +50,7 @@ namespace PasteBook
         [HttpGet]
         public ActionResult LoginPage()
         {
+            ViewBag.LoginError = false;
             return View();
         }
 
@@ -57,7 +62,7 @@ namespace PasteBook
 
             if (user == null)
             {
-                ModelState.AddModelError("UserEF.EMAIL_ADDRESS", "Email Address doesn't exists.");
+                ViewBag.LoginError = true;
             }
             else
             {
@@ -72,7 +77,7 @@ namespace PasteBook
             }
             else
             {
-                ModelState.AddModelError("UserEF.PASSWORD", "Incorrect Password.");
+                ViewBag.LoginError = true;
                 return View();
             }
         }
@@ -83,16 +88,21 @@ namespace PasteBook
             PB_USER model = new PB_USER();
             model = userManager.GetUserInfo((string)Session["UserName"]);
             ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY", model.COUNTRY_ID);
+            ViewBag.EditProfileStatus = false;
             return View(model);
         }
         
         [HttpPost]
         public ActionResult Setting(PB_USER model)
         {
-            userManager.EditUserProfile(model);
+            int result = userManager.EditUserProfile(model);
+            if (result == 1)
+            {
+                ViewBag.EditProfileStatus = true;
+            }
             ViewBag.CountryList = new SelectList(accountManager.RetrieveCountry(), "ID", "COUNTRY", model.COUNTRY_ID);
             Session["UserName"] = model.USER_NAME;
-            return RedirectToAction("Setting");
+            return View(model);
         }
 
         [HttpGet]
@@ -101,6 +111,7 @@ namespace PasteBook
             PB_USER model = new PB_USER();
             model = userManager.GetUserInfo((string)Session["UserName"]);
             model.PASSWORD = null;
+            ViewBag.EditAccount = "default";
             return View(model);
         }
 
@@ -114,13 +125,13 @@ namespace PasteBook
             {
                 user.PASSWORD = password;
                 userManager.EditAccountSetting(user);
-                return RedirectToAction("AccountSetting");
+                ViewBag.EditAccount = "success";
             }
             else
             {
-                ModelState.AddModelError("PASSWORD", "Incorrect Password.");
-                return View(user);
+                ViewBag.EditAccount = "failed";
             }
+            return View(user);
         }
 
         [HttpGet]
@@ -128,7 +139,8 @@ namespace PasteBook
         {
             PB_USER model = new PB_USER();
             model = userManager.GetUserInfo((string)Session["UserName"]);
-            model.PASSWORD = null; 
+            model.PASSWORD = null;
+            ViewBag.SecurityStatus = "default";
             return View(model);
         }
 
@@ -142,12 +154,12 @@ namespace PasteBook
             {
                 user.PASSWORD = newPassword;
                 userManager.EditSecurityAccount(user);
-
-                return RedirectToAction("SecuritySetting");
+                ViewBag.SecurityStatus = "success";
+                return View(user);
             }
             else
             {
-                ModelState.AddModelError("PASSWORD", "Incorrect Password.");
+                ViewBag.SecurityStatus = "failed";
                 return View(user);
             }
         }
@@ -157,6 +169,15 @@ namespace PasteBook
         {
             Session.Clear();
             return Json(new { Status = "Session Cleared" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CheckIfUsernameExists(string username)
+        {
+            return Json(new { result = accountManager.CheckIfUserNameExists(username), JsonRequestBehavior.AllowGet });
+        }
+        public JsonResult CheckIfEmailExists(string email)
+        {
+            return Json(new { result = accountManager.CheckIfEmailExists(email), JsonRequestBehavior.AllowGet });
         }
     }
 }

@@ -1,64 +1,75 @@
 ﻿@model DataAccess.PB_USER
+<div class="panelSetting panel panel-primary">
+    <div class="settingHeading panel-heading">
+        <h3 class="settingTitle panel-title">Profile Setting</h3>
+    </div>
+    @if (@ViewBag.EditProfileStatus == true)
+        {
+    <div class="alert alert-dismissible alert-info" id="editProfileAlert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>The information were updated successfully.</strong>
+    </div>
+     } 
+    <div class="panel-body col-lg-offset-2">
+       
+        @Html.HiddenFor(model => model.ID)
 
-
-@Html.HiddenFor(model => model.ID)
-
-@using (Html.BeginForm("Setting", "Account", FormMethod.Post))
+        @using (Html.BeginForm("Setting", "Account", FormMethod.Post))
             {
-    @Html.HiddenFor(model => model.ID)
-    <div class="form-group">
-        @Html.LabelFor(model => model.USER_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-            @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.REF_COUNTRY.COUNTRY, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(x => x.COUNTRY_ID, (SelectList)@ViewBag.CountryList as SelectList, "Select Country", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.REF_COUNTRY.COUNTRY, "", new { @class = "text-danger" })
-                    </div>
+            @Html.HiddenFor(model => model.ID)
+            <div class="form-group">
+                @Html.LabelFor(model => model.USER_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="settingInput col-md-10">
+                    @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtUserName" } })
+                    @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger",id = "validationUserName" })
                 </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="settingInput col-md-10">
+                    @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtFirstName" } })
+                    @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger", id = "validationFirstName" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="settingInput col-md-10">
+                    @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control", id = "txtLastName" } })
+                    @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger",id = "validationLastName" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="settingInput col-md-10">
+                    @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control", type = "date", id = "bisrthdate" } })
+                    @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger", id = "validationBirthday" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.REF_COUNTRY.COUNTRY, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="settingInput col-md-10">
+                    @Html.DropDownListFor(x => x.COUNTRY_ID, (SelectList)@ViewBag.CountryList as SelectList, "Select Country", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.REF_COUNTRY.COUNTRY, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "mobileLabel control-label col-md-3" })
+                    <div class="settingInput col-md-9">
                         @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "control-label col-md-2" , id="genderLbl" })
+                    <div class="settingInput col-md-10">
                         @{SelectList gender = new SelectList(
     new List<Object>
-        { new { value = "U" , text = "Unspecified"  },
+    { new { value = "U" , text = "Unspecified"  },
                             new { value = "F" , text = "Female"},
                             new { value = "M" , text = "Male"}}, "value", "text", Model.GENDER);
                         }
@@ -69,8 +80,26 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
+                    <div class="col-md-offset-6 col-md-10">
+                        <input type="submit" value="Save Changes" class="saveSetting btn btn-primary" />
                     </div>
                 </div>
                             }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        var checkIfUserExistUrl = '@Url.Action("CheckIfUsernameExists", "Account")';
+        var checkIfEmailExistUrl = '@Url.Action("CheckIfEmailExists", "Account")';
+        $("#editProfileAlert").fadeTo(3000, 900).slideUp(900, function () {
+            $("#editProfileAlert").slideUp(900);
+        });
+    </script>
+      
+    <script src="~/Scripts/Validation.js"></script>
+
+}

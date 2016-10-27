@@ -98,19 +98,34 @@
                    Html.RenderAction("ProfileHeaderPartialView", "PasteBook", new { username = Model.UserModel.USER_NAME});
                }
            </div>
-
-                <div id="postContaner">
-                    @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
-                    <button class="btn btn-primary pull-right" id="post">Post</button>
-
-                </div>
-            </div>
-
-            <div id="homePartial">
-                @{
-                    Html.RenderAction("HomePartialView", "PasteBook", new { ID = Model.UserModel.ID, Page = "Profile" });
+                @if (Model.FriendModel == null || Model.FriendModel.REQUEST == "N")
+                {
+                    <div id="strangersView">
+                        Be friends, to know more about @Model.UserModel.FIRST_NAME.
+                    </div>
                 }
+                else if (Model.FriendModel != null || Model.FriendModel.REQUEST == "Y")
+                {
+                    <div id="postContaner">
+                        @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
+                        <button class="btn btn-primary pull-right" id="post">Post</button>
+
+                    </div>
+                }
+                    
             </div>
+                @if (Model.FriendModel == null || Model.FriendModel.REQUEST == "N")
+                {
+
+                }
+                else if (Model.FriendModel != null || Model.FriendModel.REQUEST == "Y")
+                {
+                    <div id="homePartial">
+                        @{
+                            Html.RenderAction("HomePartialView", "PasteBook", new { ID = Model.UserModel.ID, Page = "Profile" });
+                        }
+                    </div>
+                            } 
         </div>
     </div>
 </div>

@@ -78,7 +78,7 @@ namespace BussinessLogicLayer
             var poster = postDALManager.GetSpecific(x => x.ID == like.POST_ID);
 
             result = likeManager.GenericAdd(like);
-            if (result == 1 && like.LIKED_BY != poster.ID)
+            if (result == 1 && like.LIKED_BY != poster.POSTER_ID)
             {
                 PB_NOTIFICATION notif = new PB_NOTIFICATION();
                 notif.SENDER_ID = like.LIKED_BY;

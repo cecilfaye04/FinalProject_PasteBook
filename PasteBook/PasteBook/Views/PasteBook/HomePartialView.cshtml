@@ -29,8 +29,6 @@
             {
                 <a href="#modal" class="likeList btn btn-link" data-toggle="modal" data-target=".@item.ID">@item.PB_LIKE.Count()<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
             }
-
-
             @if (item.PB_LIKE.Any(x => x.LIKED_BY == (int)Session["ID"]))
             {
                 <button class="unlikeButton" value=@item.PB_LIKE.Where(x=>x.LIKED_BY == (int)Session["ID"]).FirstOrDefault().ID><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>Unlike</button>

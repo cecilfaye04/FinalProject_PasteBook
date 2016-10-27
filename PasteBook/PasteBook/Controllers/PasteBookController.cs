@@ -63,6 +63,7 @@ namespace PasteBook.Controllers
         {
             ProfileViewModel model = new ProfileViewModel();
             model.UserModel = userManager.GetUserInfo(username);
+            model.FriendModel = friendManager.RetrieveFriend(model.UserModel.ID, (int)Session["ID"]);
             return View(model);
         }
 
@@ -83,8 +84,9 @@ namespace PasteBook.Controllers
 
         public ActionResult FriendNotificationPartialView()
         {
-            UserActionViewModel model = new UserActionViewModel();
-            model.NotificationList = postManager.RetrieveNotification((int)Session["ID"]);
+            ProfileViewModel model = new ProfileViewModel();
+
+            model.FriendList = friendManager.RetrieveFriendList((int)Session["ID"]);
             return PartialView("FriendNotificationPartialView", model);
         }
 
@@ -108,7 +110,12 @@ namespace PasteBook.Controllers
                 return RedirectToAction("Profile", "PasteBook", new { username = User_Name });
             }
         }
-
+        public ActionResult SeeAllNotification()
+        {
+            UserActionViewModel model = new UserActionViewModel();
+            model.NotificationList = postManager.RetrieveNotification((int)Session["ID"]);
+            return View(model);
+        }
         
         public JsonResult LikePost(int Post_ID,int Receiver_ID)
         {

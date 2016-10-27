@@ -1,26 +1,57 @@
 ﻿@model DataAccess.PB_USER
-
-@using (Html.BeginForm("SecuritySetting", "Account",FormMethod.Post))
-            {
-    @Html.HiddenFor(model => model.ID)
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.PASSWORD, null, new { @class = "form-control", display = "none" })
-            @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
-        </div>
+<div class="panelSetting panel panel-primary">
+    <div class="settingHeading panel-heading">
+        <h3 class="settingTitle panel-title">Change Password</h3>
     </div>
+    @if (@ViewBag.SecurityStatus == "success")
+    {
+        <div class="editSecurity alert alert-dismissible alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Password were updated successfully.</strong>
+        </div>
+    }
+    else if (@ViewBag.SecurityStatus == "failed")
+    {
+        <div class="editSecurity alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Password incorrect.</strong>
+        </div>
+    }
+    <div class="panel-body col-lg-offset-2">
+     
+     
+        @using (Html.BeginForm("SecuritySetting", "Account", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="settingInput col-md-10">
+                    @Html.TextBoxFor(model => model.PASSWORD, null, new { @class = "form-control", display = "none" ,id = "txtPassword", type = "password" })
+                    @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger", id = "validationPassword" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("New password", htmlAttributes: new { @class = "settingLabel control-label col-md-3" })
+                <div class="settingInput col-md-9">
+                    @Html.TextBox("newPassword", "", new { @class = "form-control" , type="password",id="txtPassword" })
+                    @Html.ValidationMessage("newPassword", "", new { @class = "text-danger" ,id="validationPassword"})
+                </div>
+            </div>
                 <div class="form-group">
-                    @Html.Label("New password", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBox("newPassword", "", new { @class = "form-control" })
-                        @Html.ValidationMessage("newPassword", "", new { @class = "text-danger" })
+                    <div class="col-md-offset-6 col-md-10">
+                        <input type="submit" value="Save Changes" class="saveSetting btn btn-primary" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(".editSecurity").fadeTo(3000, 900).slideUp(900, function () {
+            $(".editSecurity").slideUp(900);
+        });
+    </script>
+    <script src="~/Scripts/Validation.js"></script>
 }

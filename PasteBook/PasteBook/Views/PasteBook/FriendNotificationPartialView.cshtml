@@ -1,29 +1,26 @@
-﻿@model UserActionViewModel
+﻿@model ProfileViewModel
 
-@if (Model.NotificationList != null)
+@if (Model.FriendList.Count() != 0)
 {
-    foreach (var item in Model.NotificationList)
+    foreach (var item in Model.FriendList.Where(x=>x.REQUEST=="N" && x.FRIEND_ID== (int)Session["ID"]))
     {
-        if (item.NOTIF_TYPE == "F")
-        {
             if (item.PB_USER1.PROFILE_PIC == null)
             {
-                <li><p><img src="~/Content/Images/default.png" class="friendPic"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME) <button class="notNow btn-default pull-right" id="btnNotNow">Not now</button><button class="btnAcceptRequest btn-primary pull-right" id="btnAccept" value="@item.">Accept</button></p> </li>
+                <li><p><img src="~/Content/Images/default.png" class="friendPic"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME) <button class="notNow btn-default pull-right" id="btnNotNow" value="@item.ID">Not now</button><button class="btnAcceptRequest btn-primary pull-right" id="btnAccept" value="@item.ID">Accept</button></p> </li>
             }
             else
             {
                 var base64 = Convert.ToBase64String(item.PB_USER1.PROFILE_PIC);
                 var profilePicture = String.Format("data:image/gif;base64,{0}", base64);
-                <li><p><img src=@profilePicture class="friendPic"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME) <button class="btn-default pull-right" id="btnNotNow">Not now</button><button class="btnAcceptRequest btn-primary pull-right" id="btnAccept">Accept</button></p> </li>
+                <li><p><img src=@profilePicture class="friendPic"> @Html.Raw(item.PB_USER1.FIRST_NAME + " " + item.PB_USER1.LAST_NAME) <button class="notNow btn-default pull-right" id="btnNotNow" value="@item.ID">Not now</button><button class="btnAcceptRequest btn-primary pull-right" id="btnAccept" value="@item.ID">Accept</button></p> </li>
             }
         }
     }
-}
 else
 {
     <li><p>No Recent Notification<p> </li>
 }
 
 <li class="divider"></li>
-<li><a href="#">Clear</a></li>
+<li><a href='@Url.Action("SeeAllNotification", "PasteBook")'>See all notification</a></li>
 

@@ -70,6 +70,7 @@ namespace DataAccessLayer
                         .Include("PB_USER")
                         .Include("PB_USER1")
                         .Where(x=>x.USER_ID == userID || x.FRIEND_ID == userID)
+                        .OrderByDescending(x=>x.CREATED_DATE)
                         .ToList();
                 }
             }
