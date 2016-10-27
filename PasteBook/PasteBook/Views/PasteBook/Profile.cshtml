@@ -98,13 +98,13 @@
                    Html.RenderAction("ProfileHeaderPartialView", "PasteBook", new { username = Model.UserModel.USER_NAME});
                }
            </div>
-                @if (Model.FriendModel == null || Model.FriendModel.REQUEST == "N")
+                @if ((Model.FriendModel == null || Model.FriendModel.REQUEST == "N" ) && Model.UserModel.USER_NAME != (string)Session["UserName"])
                 {
                     <div id="strangersView">
                         Be friends, to know more about @Model.UserModel.FIRST_NAME.
                     </div>
                 }
-                else if (Model.FriendModel != null || Model.FriendModel.REQUEST == "Y")
+                else/* if (Model.FriendModel != null || Model.FriendModel.REQUEST == "Y" || Model.UserModel.USER_NAME == (string)Session["UserName"] )*/
                 {
                     <div id="postContaner">
                         @Html.TextArea("Content", new { rows = 4, columns = 40, id = "textAreaPost", @class = "form-control", placeholder = "Say something..." })
@@ -114,11 +114,11 @@
                 }
                     
             </div>
-                @if (Model.FriendModel == null || Model.FriendModel.REQUEST == "N")
+                @if ((Model.FriendModel == null || Model.FriendModel.REQUEST == "N") && Model.UserModel.USER_NAME != (string)Session["UserName"])
                 {
 
                 }
-                else if (Model.FriendModel != null || Model.FriendModel.REQUEST == "Y")
+                else /*if (Model.FriendModel != null || Model.FriendModel.REQUEST == "Y" || Model.UserModel.USER_NAME == (string)Session["UserName"])*/
                 {
                     <div id="homePartial">
                         @{

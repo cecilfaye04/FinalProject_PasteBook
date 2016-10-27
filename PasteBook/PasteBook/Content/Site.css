@@ -433,3 +433,42 @@ label.settingLabel {
 input#MOBILE_NO {
     margin-left: -48px;
 }
+
+div#errorLeftpane {
+    margin-top: 85px;
+    margin-left: 210px;
+}
+p#errorInfo {
+    font-size: 45px;
+        margin-top: 6px;
+    font-weight: bolder;
+    margin-left: -40px;
+}
+p#errorHeader {
+    font-size: 62px;
+    margin-top: 91px;
+    margin-left: 30px;
+}
+p#errorDo {
+    font-size: 17px;
+    color: darkgray;
+    margin-left: -61px;
+    margin-top: 26px;
+}
+p#error404Info {
+        font-size: 45px;
+    margin-top: 6px;
+    font-weight: bolder;
+    margin-left: 89px;
+}
+p#error404Header {
+    font-size: 62px;
+    margin-top: 91px;
+    margin-left: 30px;
+}
+p#error404Do {
+  font-size: 17px;
+    color: darkgray;
+    margin-left: 66px;
+    margin-top: 26px;
+}
